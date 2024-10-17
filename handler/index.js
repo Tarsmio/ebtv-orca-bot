@@ -1,3 +1,4 @@
 module.exports = {
-    commandHandle : require('./commandInteraction')
+    commandHandle : require('./commandInteraction'),
+    autocompHandle : require('./autocompInteraction')
 }
