@@ -2,7 +2,9 @@ const fs = require('node:fs');
 
 module.exports = async (client) => {
     try{
-        await client.user.setUsername('O.R.C.A');
+        const username = (client.args[0] == "dev") ? 'O.R.C.A_d.e.v' : 'O.R.C.A'
+
+        await client.user.setUsername(username);
 
         const newAvatar = fs.readFileSync('./images/Orca.png');
         await client.user.setAvatar(newAvatar);
