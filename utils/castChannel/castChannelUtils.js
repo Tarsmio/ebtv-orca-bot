@@ -43,7 +43,7 @@ async function createCastChannel(guild, category, channelName, permissionOverwri
             permissionOverwrites: permissionOverwrites,
         });
     } catch (error) {
-        throw new Error('Le bot n\'a pas les permissions requises pour créer le salon de cast.')
+        throw new Error(`'Le bot n\'a pas les permissions requises pour créer le salon de cast.'${error}`)
     }
 }
 
@@ -58,8 +58,9 @@ async function createCastChannel(guild, category, channelName, permissionOverwri
  * @param {string} castPreparation - Additional information for the cast preparation.
  * @returns {Promise<void>} Returns a promise that resolves once the announcement message is sent.
  */
-async function castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, matchData, castPreparation) {
-    const announcementText = matchData[0].scheduled_datetime ? checkCastTime(matchData[0].scheduled_datetime) : 'Votre match va être cast par';
+async function castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, castPreparation) {
+    //matchData[0].scheduled_datetime ? checkCastTime(matchData[0].scheduled_datetime) : 
+    const announcementText = 'Votre match va être cast par';
 
     if (coCaster && memberCoCaster) {
         castChannel.permissionOverwrites.edit(memberCoCaster, { ViewChannel: true, SendMessages: true });
