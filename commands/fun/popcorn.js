@@ -5,8 +5,7 @@ const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
 module.exports.execute = async (interaction) => {
     try {
         await interaction.deferReply();
-
-        await checkUserPermissions(interaction, [process.env.ROLE_ID_STAFF_EBTV, process.env.ROLE_ID_ASSISTANT_TO]);
+        
         await interaction.editReply(`:popcorn:`);
     } catch (error) {
         console.error(error);

@@ -5,7 +5,6 @@ const { ADMIN } = require('../../utils/roleEnum');
 module.exports.execute = async (interaction) => {
     try {
         await interaction.deferReply();
-        await checkUserPermissions(interaction, [process.env.ROLE_ID_ADMIN]);
 
         const CHANNEL_CATEGORY_TYPE = 4; //Type for category channel
         const numDiv = interaction.options.getString('numdiv');

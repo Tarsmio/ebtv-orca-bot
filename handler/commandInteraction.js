@@ -6,6 +6,15 @@ module.exports = async (interaction) => {
         return;
     }
 
+    if(command.info.rolePermission.length > 0){
+        const member = interaction.member
+
+        if(!command.info.rolePermission.some(roleId => member.roles.cache.has(roleId))) return interaction.reply({
+            ephemeral : true,
+            content : "Désolé tu n'as pas le droit d'utiliser cette commande !"
+        })
+    }
+
     try {
         await command.execute(interaction);
     } catch (error) {

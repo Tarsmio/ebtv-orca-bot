@@ -6,8 +6,6 @@ const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
 module.exports.execute = async (interaction) => {
     await interaction.deferReply();
 
-    checkUserPermissions(interaction, [process.env.ROLE_ID_STAFF_EBTV, process.env.ROLE_ID_ASSISTANT_TO]);
-
     let team1 = interaction.options.getRole("équipe1").name
     let team2 = interaction.options.getRole("équipe2").name
     let score = interaction.options.getString("score");

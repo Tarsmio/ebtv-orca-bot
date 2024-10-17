@@ -6,7 +6,6 @@ const { STAFF_EBTV } = require('../../utils/roleEnum');
 module.exports.execute = async (interaction) => {
     try {
         await interaction.deferReply();
-        await checkUserPermissions(interaction, [process.env.ROLE_ID_STAFF_EBTV]);
 
         const guild = interaction.guild;
         const numDiv = interaction.options.getString('numdiv');

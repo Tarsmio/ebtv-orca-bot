@@ -28,11 +28,6 @@ module.exports.execute = async (interaction) => {
 
         embedBuilder("Log O.R.C.A", member, channel, interaction.commandName);
 
-        if (!member.roles.cache.has(process.env.ROLE_ID_STAFF_EBTV)) {
-            interaction.reply({ content: `Vous n'avez pas les permissions requises à l'utilisation de cette commande.`, ephemeral: true })
-            return;
-        }
-
         const targetPattern = /^Division \d+$/;
         await guild.channels.fetch();
 

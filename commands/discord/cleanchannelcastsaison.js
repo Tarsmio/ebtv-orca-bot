@@ -11,8 +11,6 @@ module.exports.execute = async (interaction) => {
 
         const CHANNELS_TO_DELETE = [];
 
-        await checkUserPermissions(interaction, [process.env.ROLE_ID_ADMIN]);
-
         //Check for Division followed by a digit
         const targetPattern = /^Division \d+$/;
         //Get channels which doesn't have div- or division- in their name

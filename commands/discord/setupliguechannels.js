@@ -15,11 +15,6 @@ module.exports.execute = async (interaction) => {
 
         embedBuilder("Log O.R.C.A", member, channel, interaction.commandName);
 
-        if (!member.roles.cache.has(process.env.ROLE_ID_STAFF_EBTV)) {
-            interaction.reply({ content: `Vous n'avez pas les permissions requises à l'utilisation de cette commande.`, ephemeral: true });
-            return;
-        }
-
         const nbDivToCreate = await getNbStage();
 
         interaction.reply({ content: "Les divisions sont en cours de création, vérifiez bien que toutes les divisions sont créer. Ne pas oublier d'autoriser la permission pour modifier les permissions des utilisateurs d'un salon (Manage Permissions) dans les catégories des divisions avant d'utiliser la commande /permissiondivisionligue." })

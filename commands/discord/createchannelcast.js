@@ -25,8 +25,6 @@ module.exports.execute = async (interaction) => {
             throw new Error("Échec lors de la récupération des données du caster pour les autorisations du salon.")
         }
 
-        await checkUserPermissions(interaction, [process.env.ROLE_ID_STAFF_EBTV, process.env.ROLE_ID_ASSISTANT_TO, process.env.ROLE_ID_CASTER_INDE]);
-
         const coCaster = interaction.options.getUser("co_caster");
         let memberCoCaster;
 

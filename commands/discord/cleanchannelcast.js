@@ -9,8 +9,6 @@ module.exports.execute = async (interaction) => {
         const MINUTE_IN_MILLISECONDS = 60_000;
         const CHANNEL_CATEGORY_TYPE = 4;
 
-        await checkUserPermissions(interaction, [process.env.ROLE_ID_ADMIN]);
-
         //Check for présaison or presaison pattern
         const targetPattern = /.*pr[eé]saison.*/i;
 

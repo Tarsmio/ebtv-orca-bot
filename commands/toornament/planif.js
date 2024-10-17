@@ -8,8 +8,6 @@ module.exports.execute = async (interaction) => {
     try {
         await interaction.deferReply();
 
-        checkUserPermissions(interaction, [process.env.ROLE_ID_STAFF_EBTV, process.env.ROLE_ID_ASSISTANT_TO])
-
         const formattedDate = parseAndFormatDate(interaction.options.getString("date"), interaction.options.getString("heure"));
 
         findMatch(interaction,

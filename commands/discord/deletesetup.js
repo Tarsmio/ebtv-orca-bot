@@ -8,8 +8,6 @@ module.exports.execute = async (interaction) => {
 
         const CHANNEL_CATEGORY_TYPE = 4;
 
-        await checkUserPermissions(interaction, [process.env.ROLE_ID_ADMIN]);
-
         //Check for a pattern Division followed by a numeric value
         const targetPattern = /^Division \d+$/;
 
