@@ -10,11 +10,6 @@ module.exports.execute = async (interaction) => {
         const guild = interaction.guild;
         const user = interaction.user;
 
-        const member = await guild.members.fetch(user.id);
-        const channel = await guild.channels.cache.get(process.env.CHANNEL_ID_LOG_BOT);
-
-        embedBuilder("Log O.R.C.A", member, channel, interaction.commandName);
-
         const nbDivToCreate = await getNbStage();
 
         interaction.reply({ content: "Les divisions sont en cours de création, vérifiez bien que toutes les divisions sont créer. Ne pas oublier d'autoriser la permission pour modifier les permissions des utilisateurs d'un salon (Manage Permissions) dans les catégories des divisions avant d'utiliser la commande /permissiondivisionligue." })

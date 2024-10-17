@@ -23,11 +23,6 @@ module.exports.execute = async (interaction) => {
             "7536519095150829568",
         ]
 
-        const member = await guild.members.fetch(user.id);
-        const channel = await guild.channels.cache.get(process.env.CHANNEL_ID_LOG_BOT);
-
-        embedBuilder("Log O.R.C.A", member, channel, interaction.commandName);
-
         const targetPattern = /^Division \d+$/;
         await guild.channels.fetch();
 
