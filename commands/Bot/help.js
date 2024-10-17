@@ -142,7 +142,7 @@ module.exports.autocom = async (interaction) => {
 
 module.exports.info = {
     name: "help",
-    description: 'Enjoy your popcorn !',
+    description: 'Affiche la liste des commandes du bot',
     rolePermission: [],
     userPersmission: [],
     helpReportType: 2,
