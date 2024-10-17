@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getTeamsGroup } = require('./../../utils/groupUtils');
-const { embedBuilder } = require("./../../utils/embedBuilder");
+const { getTeamsGroup } = require('../../utils/groupUtils');
+const { embedBuilder } = require("../../utils/embedBuilder");
 const { STAFF_EBTV } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
@@ -166,7 +166,8 @@ module.exports.info = {
     description: 'Commande pour mettre les permissions des différents channels de division.',
     rolePermission: [STAFF_EBTV],
     userPersmission: [],
-    helpReportType: 1
+    helpReportType: 1,
+    category : "ligue"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()

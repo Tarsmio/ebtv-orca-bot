@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { findMatch, setPlanif } = require("./../../utils/matchUtils");
-const { checkUserPermissions } = require("./../../utils/logging/logger");
-const { parseAndFormatDate } = require("./../../utils/planification/date");
+const { findMatch, setPlanif } = require("../../utils/matchUtils");
+const { checkUserPermissions } = require("../../utils/logging/logger");
+const { parseAndFormatDate } = require("../../utils/planification/date");
 const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
@@ -28,7 +28,8 @@ module.exports.info = {
     description: 'Commande pour planifier un match !',
     rolePermission: [STAFF_EBTV, TO],
     userPersmission: [],
-    helpReportType: 1
+    helpReportType: 1,
+    category : "toornament"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()

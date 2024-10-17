@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { findMatch, setResult } = require("./../../utils/matchUtils");
-const { checkUserPermissions } = require("./../../utils/logging/logger");
+const { findMatch, setResult } = require("../../utils/matchUtils");
+const { checkUserPermissions } = require("../../utils/logging/logger");
 const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
@@ -36,7 +36,8 @@ module.exports.info = {
     description: 'Commande pour mettre le score d\'un match un match !',
     rolePermission: [STAFF_EBTV, TO],
     userPersmission: [],
-    helpReportType: 1
+    helpReportType: 1,
+    category : "toornament"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()

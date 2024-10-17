@@ -80,7 +80,8 @@ module.exports.info = {
     description: 'Commande pour créer une unique division !',
     rolePermission: [STAFF_EBTV],
     userPersmission: [],
-    helpReportType: 1
+    helpReportType: 1,
+    category : "ligue"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()

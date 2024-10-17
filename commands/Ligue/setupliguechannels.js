@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ChannelType, PermissionsBitField } = require('discord.js');
-const { getNbStage } = require('./../../utils/toornamentUtils');
-const { embedBuilder } = require("./../../utils/embedBuilder");
+const { getNbStage } = require('../../utils/toornamentUtils');
+const { embedBuilder } = require("../../utils/embedBuilder");
 const { STAFF_EBTV } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
@@ -84,7 +84,8 @@ module.exports.info = {
     description: 'Commande pour créer automatiquement les divisions de la ligue !',
     rolePermission: [STAFF_EBTV],
     userPersmission: [],
-    helpReportType: 1
+    helpReportType: 1,
+    category : "ligue"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()

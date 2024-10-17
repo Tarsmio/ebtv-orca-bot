@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-const { checkUserPermissions } = require("./../../utils/logging/logger");
+const { checkUserPermissions } = require("../../utils/logging/logger");
 const { setStreamUrl } = require("../../utils/toornamentUtils");
 const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
 
@@ -29,7 +29,8 @@ module.exports.info = {
     description: 'Commande pour enregistrer l\'url lié à une chaîne Youtube ou Twitch !',
     rolePermission: [STAFF_EBTV, TO],
     userPersmission: [],
-    helpReportType: 1
+    helpReportType: 1,
+    category : "cast"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()

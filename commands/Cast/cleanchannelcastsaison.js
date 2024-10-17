@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { checkUserPermissions } = require("./../../utils/logging/logger");
+const { checkUserPermissions } = require("../../utils/logging/logger");
 const { ADMIN } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
@@ -9,24 +9,33 @@ module.exports.execute = async (interaction) => {
         const MINUTE_IN_MILLISECONDS = 60_000;
         const CHANNEL_CATEGORY_TYPE = 4;
 
-        //Check for présaison or presaison pattern
-        const targetPattern = /.*pr[eé]saison.*/i;
+        const CHANNELS_TO_DELETE = [];
 
-        const preSaisonCategory = interaction.guild.channels.cache.filter(channel => channel.type === CHANNEL_CATEGORY_TYPE && targetPattern.test(channel.name)).first();
+        //Check for Division followed by a digit
+        const targetPattern = /^Division \d+$/;
+        //Get channels which doesn't have div- or division- in their name
+        const channelPattern = /^(?!(div-\d+|division-\d+)).*/;
 
-        if (!preSaisonCategory || preSaisonCategory.size === 0) {
+        const seasonCategory = interaction.guild.channels.cache.filter(channel => channel.type === CHANNEL_CATEGORY_TYPE && targetPattern.test(channel.name));
+
+        if (!seasonCategory || seasonCategory.size === 0) {
             return await interaction.editReply('La catégorie de présaison n\'a pas été trouvée.');
         }
 
-        const presaisonChannels = preSaisonCategory.children.cache;
+        seasonCategory.forEach(category => {
+            const seasonChannels = category.children.cache;
 
-        const channelsNotStartingWithPrésaison = presaisonChannels.filter(channel => !targetPattern.test(channel.name));
+            const channelCast = seasonChannels.filter(channel => channelPattern.test(channel.name))
 
-        const channelNamesToDeleteString = channelsNotStartingWithPrésaison.map(channel => `- ${channel.name}`).join('\n');
+            if (channelCast.size > 0) {
+                CHANNELS_TO_DELETE.push(channelCast)
+            }
+        });
 
-        if (channelNamesToDeleteString.length === 0) {
-            return await interaction.editReply({ content: `Aucun salon de cast de présaison à supprimer.`, ephemeral: false });
-        }
+        const channelsCategoryDelete = CHANNELS_TO_DELETE.flatMap(collection => Array.from(collection.values()));
+        const channelNamesToDelete = channelsCategoryDelete.map(channel => channel.name);
+
+        const channelsWillBeDeleted = channelNamesToDelete.map(channel => `- ${channel}`).join('\n');
 
         //Set up like an embed message, to make it clear what the bot will delete
         const confirm = new ButtonBuilder()
@@ -43,7 +52,7 @@ module.exports.execute = async (interaction) => {
             .addComponents(confirm, cancel);
 
         const response = await interaction.editReply({
-            content: `Êtes-vous sûr de vouloir supprimer les salons \n${channelNamesToDeleteString} :`,
+            content: `Êtes-vous sûr de vouloir supprimer les salons \n${channelsWillBeDeleted}`,
             components: [row],
         });
 
@@ -53,28 +62,28 @@ module.exports.execute = async (interaction) => {
             const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: MINUTE_IN_MILLISECONDS });
 
             if (confirmation.customId === 'confirm') {
-                channelsNotStartingWithPrésaison.forEach(channel => {
+                channelsCategoryDelete.forEach(channel => {
                     channel.delete();
                 })
-                await confirmation.update({ content: "Les salons de cast de présaison ont bien été supprimé.", components: [] });
+                await confirmation.update({ content: "Les salons de cast de saison ont bien été supprimé.", components: [] });
             } else if (confirmation.customId === 'cancel') {
                 await confirmation.update({ content: "Action annulé", components: [] });
             }
         } catch (e) {
             await interaction.editReply({ content: 'Aucune confirmation reçu dans la minute, annulation', components: [] });
         }
-
     } catch (error) {
         interaction.editReply({ content: `${error}`, ephemeral: false });
     }
 }
 
 module.exports.info = {
-    name: "cleancastpresaison",
-    description: 'Commande pour nettoyer les salons de cast de la présaison.',
+    name: "cleancastsaison",
+    description: 'Commande pour nettoyer les salons de cast de la saison.',
     rolePermission: [ADMIN],
     userPersmission: [],
-    helpReportType: 1
+    helpReportType: 1,
+    category : "cast"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()

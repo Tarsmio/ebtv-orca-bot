@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { checkUserPermissions } = require("./../../utils/logging/logger");
+const { checkUserPermissions } = require("../../utils/logging/logger");
 const { ADMIN } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
@@ -36,7 +36,8 @@ module.exports.info = {
     description: 'Commande pour supprimer toute les division de la ligue',
     rolePermission: [ADMIN],
     userPersmission: [],
-    helpReportType: 1
+    helpReportType: 1,
+    category : "ligue"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()

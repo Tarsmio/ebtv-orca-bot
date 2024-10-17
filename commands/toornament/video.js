@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { checkUserPermissions } = require('./../../utils/logging/logger');
-const { setVideo } = require('./../../utils/toornament/video');
-const { getMatchId } = require('./../../utils/matchUtils');
+const { checkUserPermissions } = require('../../utils/logging/logger');
+const { setVideo } = require('../../utils/toornament/video');
+const { getMatchId } = require('../../utils/matchUtils');
 const { STAFF_EBTV, TO, CASTER_INDE } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
@@ -40,7 +40,8 @@ module.exports.info = {
     description: 'Commande pour liée une vidéo à un match !',
     rolePermission: [STAFF_EBTV, TO, CASTER_INDE],
     userPersmission: [],
-    helpReportType: 1
+    helpReportType: 1,
+    category : "toornament"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()
