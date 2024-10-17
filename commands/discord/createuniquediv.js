@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ChannelType, PermissionsBitField } = require('discord.js');
-const { checkUserPermissions } = require("../../utils/logging/logger")
+const { checkUserPermissions } = require("../../utils/logging/logger");
+const { STAFF_EBTV } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
     try {
@@ -78,7 +79,7 @@ module.exports.execute = async (interaction) => {
 module.exports.info = {
     name: "creeruniquedivision",
     description: 'Commande pour créer une unique division !',
-    rolePermission: [process.env.ROLE_ID_STAFF_EBTV],
+    rolePermission: [STAFF_EBTV],
     userPersmission: [],
     helpReportType: 1
 }

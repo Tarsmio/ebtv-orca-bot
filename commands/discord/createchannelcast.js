@@ -8,7 +8,8 @@ const { getCategoryCastMatch, checkExistingChannels, createCastChannel, castAnno
 const { setStreamMatch } = require("./../../utils/toornamentUtils")
 
 const streamManager = require("./../../utils/streamManager")
-const STREAM_IDS = require("./../../data/streamer_ids.json")
+const STREAM_IDS = require("./../../data/streamer_ids.json");
+const { STAFF_EBTV, TO, CASTER_INDE } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
     try {
@@ -166,7 +167,7 @@ module.exports.execute = async (interaction) => {
 module.exports.info = {
     name: "creerchannelcast",
     description: 'Commande pour créer un channel de cast !',
-    rolePermission: [process.env.ROLE_ID_STAFF_EBTV, process.env.ROLE_ID_ASSISTANT_TO, process.env.ROLE_ID_CASTER_INDE],
+    rolePermission: [STAFF_EBTV, TO, CASTER_INDE],
     userPersmission: [],
     helpReportType: 1
 }

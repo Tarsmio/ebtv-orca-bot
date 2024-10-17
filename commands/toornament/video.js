@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { checkUserPermissions } = require('./../../utils/logging/logger');
 const { setVideo } = require('./../../utils/toornament/video');
 const { getMatchId } = require('./../../utils/matchUtils');
+const { STAFF_EBTV, TO, CASTER_INDE } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
     try {
@@ -39,7 +40,7 @@ module.exports.execute = async (interaction) => {
 module.exports.info = {
     name: "lielienvideo",
     description: 'Commande pour liée une vidéo à un match !',
-    rolePermission: [process.env.ROLE_ID_STAFF_EBTV, process.env.ROLE_ID_ASSISTANT_TO, process.env.ROLE_ID_CASTER_INDE],
+    rolePermission: [STAFF_EBTV, TO, CASTER_INDE],
     userPersmission: [],
     helpReportType: 1
 }

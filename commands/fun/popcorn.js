@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { checkUserPermissions } = require('./../../utils/logging/logger');
+const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
     try {
@@ -17,7 +18,7 @@ module.exports.execute = async (interaction) => {
 module.exports.info = {
     name: "popcorn",
     description: 'Enjoy your popcorn !',
-    rolePermission: [process.env.ROLE_ID_STAFF_EBTV, process.env.ROLE_ID_ASSISTANT_TO],
+    rolePermission: [STAFF_EBTV, TO],
     userPersmission: [],
     helpReportType: 1
 }

@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const { checkUserPermissions } = require("./../../utils/logging/logger");
 const { setStreamUrl } = require("../../utils/toornamentUtils");
+const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
     try {
@@ -28,7 +29,7 @@ module.exports.execute = async (interaction) => {
 module.exports.info = {
     name: "urlcaster",
     description: 'Commande pour enregistrer l\'url lié à une chaîne Youtube ou Twitch !',
-    rolePermission: [process.env.ROLE_ID_STAFF_EBTV, process.env.ROLE_ID_ASSISTANT_TO],
+    rolePermission: [STAFF_EBTV, TO],
     userPersmission: [],
     helpReportType: 1
 }

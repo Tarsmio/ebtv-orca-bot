@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { checkUserPermissions } = require("./../../utils/logging/logger")
+const { checkUserPermissions } = require("./../../utils/logging/logger");
+const { ADMIN } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
     try {
@@ -73,7 +74,7 @@ module.exports.execute = async (interaction) => {
 module.exports.info = {
     name: "cleancastpresaison",
     description: 'Commande pour nettoyer les salons de cast de la présaison.',
-    rolePermission: [process.env.ROLE_ID_ADMIN],
+    rolePermission: [ADMIN],
     userPersmission: [],
     helpReportType: 1
 }
