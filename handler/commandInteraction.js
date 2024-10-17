@@ -1,4 +1,4 @@
-const { commandLogger } = require("../utils/logs");
+const {commandLog } = require("../utils/logs");
 
 module.exports = async (interaction) => {
     const command = interaction.client.commands.get(interaction.commandName);
@@ -28,5 +28,5 @@ module.exports = async (interaction) => {
         }
     }
 
-    commandLogger(interaction)
+    commandLog(interaction)
 }
