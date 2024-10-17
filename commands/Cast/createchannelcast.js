@@ -25,6 +25,8 @@ module.exports.execute = async (interaction) => {
             throw new Error("Échec lors de la récupération des données du caster pour les autorisations du salon.")
         }
 
+        await checkUserPermissions(interaction, [process.env.ROLE_ID_STAFF_EBTV, process.env.ROLE_ID_ASSISTANT_TO, process.env.ROLE_ID_CASTER_INDE]);
+
         const coCaster = interaction.options.getUser("co_caster");
         let memberCoCaster;
 
@@ -61,34 +63,33 @@ module.exports.execute = async (interaction) => {
 
         //const matchData = await fetchUniqueMatch(teamRoles.team1.name, teamRoles.team2.name);
 
-        /*if (!matchData || matchData.length === 0) {
-            throw new Error('Aucun match planifié correspondant n\'a été trouvé.');
-        }*/
+        //if (!matchData || matchData.length === 0) {
+            //throw new Error('Aucun match planifié correspondant n\'a été trouvé.');
+        //}
 
-        /*if (!matchData[0].opponents || matchData[0].opponents.length === 0) {
-            throw new Error('Aucun adversaire trouvé pour le match sélectionné.');
-        }*/
+        //if (!matchData[0].opponents || matchData[0].opponents.length === 0) {
+            //throw new Error('Aucun adversaire trouvé pour le match sélectionné.');
+        //}
 
-        /*const opponent1Name = matchData[0].opponents[0]?.participant?.name;
-        const opponent2Name = matchData[0].opponents[1]?.participant?.name;*/
+        //const opponent1Name = matchData[0].opponents[0]?.participant?.name;
+        //const opponent2Name = matchData[0].opponents[1]?.participant?.name;
 
         //Check if name of both teams correspond to the fetched match
-        /*if (!(teamRoles.team1.name === opponent1Name || teamRoles.team1.name === opponent2Name) ||
-            !(teamRoles.team2.name === opponent1Name || teamRoles.team2.name === opponent2Name)) {
-            throw new Error('Aucun match planifié a été trouvée pour ces deux équipes.');
-        }*/
+        //if (!(teamRoles.team1.name === opponent1Name || teamRoles.team1.name === opponent2Name) ||
+            //!(teamRoles.team2.name === opponent1Name || teamRoles.team2.name === opponent2Name)) {
+            //throw new Error('Aucun match planifié a été trouvée pour ces deux équipes.');
+        //}
 
         //const divisionName = await fetchUniqueGroup(matchData[0]?.group_id);
-
         //Regular expression which check for the category presaison name, regardless of emoji if they are any in the category name
-        const targetPattern = /.*pr[eé]saison.*/i; //check for presaison
+        const targetPattern = /casts ind[eé]pendants/i;
 
         //Match any string that contain divisionPattern as a substring
         //const divisionPattern = divisionName.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
         //const castCategory = await getCategoryCastMatch(guild, divisionPattern);
 
-        const castCategory = guild.channels.cache.filter(channel => channel.type === 4 && targetPattern.test(channel.name)).first(); //check for presaison
+        const castCategory = guild.channels.cache.filter(channel => channel.type === 4 && targetPattern.test(channel.name)).first();
 
         if (!castCategory || castCategory.size === 0) {
             return await interaction.editReply('La catégorie où doit être placé le salon n\'a pas été trouvée.');
@@ -104,10 +105,10 @@ module.exports.execute = async (interaction) => {
         }
 
         //Set the stream url of the caster to the match
-        /*if (STREAM_IDS[member.id] !== undefined) {
-            await setStreamMatch(matchData[0].id, STREAM_IDS[member.id])
-            await streamManager.setStreamUrl(member.id)
-        }*/
+        //if (STREAM_IDS[member.id] !== undefined) {
+            //await setStreamMatch(matchData[0].id, STREAM_IDS[member.id])
+            //await streamManager.setStreamUrl(member.id)
+        //}
 
         const permissionOverwrites = [
             {
@@ -140,22 +141,31 @@ module.exports.execute = async (interaction) => {
             },
         ]
 
+        if(memberCoCaster !== null){
+          permissionOverwrites.push({
+             id: memberCoCaster,
+             allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
+          });
+        }
+
         const castChannel = await createCastChannel(guild, castCategory, `${teamRoles.team1.name}-${teamRoles.team2.name}-cast`, permissionOverwrites);
         const castPreparation = `
- Pour bien préparer le cast, merci d’indiquer :\n
- \u2022 Les pronoms des membres de vos équipes
- \u2022 S’il va y avoir des changements entre les manches
- \u2022 La prononciation du nom de l'équipe ou des pseudos si elle n’est pas simple \n
- Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !
- 
- ${streamManager.getStreamUrl() !== null ? `La diffusion en direct du match est disponible à l'adresse suivante : <${streamManager.getStreamUrl()}>` : ''}`;
+📣  Cast de votre match 📺 \n <@&${teamRoles.team1.id}> <@&${teamRoles.team2.id}> \n
 
-        await castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, castPreparation);
+Pour bien préparer le cast, merci d’indiquer :\n
+\u2022 Les pronoms des membres de vos équipes
+\u2022 S’il va y avoir des changements entre les manches
+\u2022 La prononciation du nom de l'équipe ou des pseudos si elle n’est pas simple \n
+Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !`;
 
-        /*if (pinPickAndBan) {
-            const msg = await castChannel.send({ files: ['images/s15_pick_ban.png'] });
-            await msg.pin();
-        }*/
+
+        await castChannel.send(`${castPreparation}`);
+        //await castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, matchData, castPreparation);
+
+        //if (pinPickAndBan) {
+            //const msg = await castChannel.send({ files: ['images/s15_pick_ban.png'] });
+            //await msg.pin();
+        //}
 
         return await interaction.editReply({ content: `Le salon de cast ${castChannel.name} a été crée par ${member.nickname !== null && member.nickname !== "null" ? member.nickname : member.user.username} (${member.user.username} le ${new Date().toLocaleString()})`, ephemeral: false })
     } catch (error) {
