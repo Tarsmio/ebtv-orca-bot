@@ -1,3 +1,5 @@
+const { commandLogger } = require("../utils/logs");
+
 module.exports = async (interaction) => {
     const command = interaction.client.commands.get(interaction.commandName);
 
@@ -25,4 +27,6 @@ module.exports = async (interaction) => {
             await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
         }
     }
+
+    commandLogger(interaction)
 }

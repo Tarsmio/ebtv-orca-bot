@@ -1,4 +1,5 @@
 const fs = require('node:fs');
+const { readyLog } = require('../../utils/logs');
 
 module.exports = async (client) => {
     try{
@@ -16,4 +17,5 @@ module.exports = async (client) => {
     }
 
     console.log(`Ready! Logged in as ${client.user.tag}`);
+    readyLog(client)
 }
