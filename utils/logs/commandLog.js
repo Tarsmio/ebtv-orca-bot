@@ -40,6 +40,9 @@ module.exports = (cmdInteraction) => {
 
         optionListe.forEach(opt => {
             optInteraction = cmdInteraction.options.get(opt)
+
+            if(!optInteraction) return
+            
             type = optInteraction.type
             let formatedValue = optInteraction.value
 
