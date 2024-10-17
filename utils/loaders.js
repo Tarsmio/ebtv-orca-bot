@@ -6,8 +6,8 @@ const loadCommands = (botClient, dir = "./commands/") => {
 
         for (const file of commands) {
             const getFileName = require(`../${dir}/${dirs}/${file}`)
-            botClient.commands.set(getFileName.data.name, getFileName)
-            console.log('info', `La commande ${getFileName.data.name} est chargé !`)
+            botClient.commands.set(getFileName.info.name, getFileName)
+            console.log('info', `La commande ${getFileName.info.name} est chargé !`)
         }
     })
 }
