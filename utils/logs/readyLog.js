@@ -1,4 +1,5 @@
-const { EmbedBuilder } = require("discord.js")
+const { EmbedBuilder } = require("discord.js");
+const { loadCommandIds } = require("../loaders");
 
 module.exports = async (client) => {
 
@@ -41,6 +42,6 @@ module.exports = async (client) => {
             }
         )
 
+    client.commandIds = await loadCommandIds(client)
     client.channels.cache.get(process.env.CHANNEL_ID_LOG_BOT).send({ embeds: [logEmbed] })
-
 }
