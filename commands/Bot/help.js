@@ -3,6 +3,7 @@ const { checkUserPermissions } = require('../../utils/logging/logger');
 const { readdirSync } = require("fs")
 const { EmbedBuilder } = require('discord.js');
 const permIndex = require('../../utils/permIndex');
+const { connect } = require('http2');
 const categoryList = readdirSync("./commands")
 
 const catEmote = {
@@ -59,10 +60,14 @@ module.exports.execute = async (interaction) => {
     }
     else {
         const command = interaction.client.commands.get(commandName)
-        const commandJSON = command.dataSlash.toJSON()
 
         if (!command) return interaction.reply({
             content: `La commande **${commandName}** n'existe pas !`,
+            ephemeral: true
+        })
+
+        if(!hasAcces(command, interaction.member.roles)) return interaction.reply({
+            content: `Je ne peut pas vous montrer la commande **${commandName}** car vous n'y avez pas acces`,
             ephemeral: true
         })
 
@@ -71,6 +76,8 @@ module.exports.execute = async (interaction) => {
         }).catch(err => {
             return false
         })
+
+        const commandJSON = command.dataSlash.toJSON()
 
         const commandEmbed = new EmbedBuilder()
             .setDescription(command.info.description)
@@ -130,7 +137,7 @@ module.exports.autocom = async (interaction) => {
     const option = interaction.options.getFocused(true);
 
     if(option.name === 'commande'){
-        const commandeListe = interaction.client.commands.map(cmd => cmd.info.name)
+        const commandeListe = interaction.client.commands.filter(cmd => hasAcces(cmd, interaction.member.roles) && cmd.info.helpReportType != 2).map(cmd => cmd.info.name)
 
         const filterElement = commandeListe.filter(el => el.startsWith(option.value))
 
