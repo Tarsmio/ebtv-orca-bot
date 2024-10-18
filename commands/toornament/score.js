@@ -33,7 +33,7 @@ module.exports.execute = async (interaction) => {
 
 module.exports.info = {
     name: "score",
-    description: 'Commande pour mettre le score d\'un match un match !',
+    description: 'Mettre le score d\'un match un match !',
     rolePermission: [STAFF_EBTV, TO],
     userPersmission: [],
     helpReportType: 1,
