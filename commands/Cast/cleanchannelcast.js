@@ -10,7 +10,8 @@ module.exports.execute = async (interaction) => {
         const CHANNEL_CATEGORY_TYPE = 4;
 
         //Check for présaison or presaison pattern
-        const targetPattern = /.*pr[eé]saison.*/i;
+        const targetPatternChannelPre = /.*pr[eé]saison.*/i;
+        const targetPattern = /casts ind[eé]pendants/i
 
         const preSaisonCategory = interaction.guild.channels.cache.filter(channel => channel.type === CHANNEL_CATEGORY_TYPE && targetPattern.test(channel.name)).first();
 
@@ -20,7 +21,7 @@ module.exports.execute = async (interaction) => {
 
         const presaisonChannels = preSaisonCategory.children.cache;
 
-        const channelsNotStartingWithPrésaison = presaisonChannels.filter(channel => !targetPattern.test(channel.name));
+        const channelsNotStartingWithPrésaison = presaisonChannels.filter(channel => !targetPatternChannelPre.test(channel.name));
 
         const channelNamesToDeleteString = channelsNotStartingWithPrésaison.map(channel => `- ${channel.name}`).join('\n');
 
