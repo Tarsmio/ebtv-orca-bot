@@ -1,11 +1,19 @@
 const { EmbedBuilder } = require("discord.js")
 
-module.exports = (client) => {
-    const userNumber = client.users.cache.map(u => {
-        if (!u.bot) {
-            return u
-        }
-    }).length.toString()
+module.exports = async (client) => {
+
+    const guild = await client.guilds.fetch(process.env.DISCORD_GUILD_ID).then((result) => {
+        return result
+    }).catch((err) => {
+        console.error("Impossible de récuperer le serveur du bot", err)
+        return false
+    });
+
+    let userNumber = 0
+
+    if(guild){
+        userNumber = guild.memberCount.toString()
+    }
 
     const commandNumber = client.commands.map(c => {
         return c
