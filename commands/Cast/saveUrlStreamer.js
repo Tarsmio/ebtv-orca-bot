@@ -26,7 +26,7 @@ module.exports.execute = async (interaction) => {
 
 module.exports.info = {
     name: "urlcaster",
-    description: 'Commande pour enregistrer l\'url lié à une chaîne Youtube ou Twitch !',
+    description: 'Enregistre l\'url lié à une chaîne Youtube ou Twitch !',
     rolePermission: [STAFF_EBTV, TO],
     userPersmission: [],
     helpReportType: 1,

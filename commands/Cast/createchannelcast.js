@@ -173,7 +173,7 @@ Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !`;
 
 module.exports.info = {
     name: "creerchannelcast",
-    description: 'Commande pour créer un channel de cast !',
+    description: 'Créer un channel de cast !',
     rolePermission: [STAFF_EBTV, TO, CASTER_INDE],
     userPersmission: [],
     helpReportType: 1,

@@ -79,7 +79,7 @@ module.exports.execute = async (interaction) => {
 
 module.exports.info = {
     name: "cleancastsaison",
-    description: 'Commande pour nettoyer les salons de cast de la saison.',
+    description: 'Nettoyer les salons de cast de la saison.',
     rolePermission: [ADMIN],
     userPersmission: [],
     helpReportType: 1,

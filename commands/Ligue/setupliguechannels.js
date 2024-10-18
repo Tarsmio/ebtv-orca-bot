@@ -76,7 +76,7 @@ module.exports.execute = async (interaction) => {
 
 module.exports.info = {
     name: "creerdivisionligue",
-    description: 'Commande pour créer automatiquement les divisions de la ligue !',
+    description: 'Créer les divisions de la ligue !',
     rolePermission: [STAFF_EBTV],
     userPersmission: [],
     helpReportType: 1,

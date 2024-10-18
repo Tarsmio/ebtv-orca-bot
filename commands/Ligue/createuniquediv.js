@@ -77,7 +77,7 @@ module.exports.execute = async (interaction) => {
 
 module.exports.info = {
     name: "creeruniquedivision",
-    description: 'Commande pour créer une unique division !',
+    description: 'Créer une unique division !',
     rolePermission: [STAFF_EBTV],
     userPersmission: [],
     helpReportType: 1,

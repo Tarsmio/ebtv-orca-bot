@@ -158,7 +158,7 @@ module.exports.execute = async (interaction) => {
 
 module.exports.info = {
     name: "permissiondivisionligue",
-    description: 'Commande pour mettre les permissions des différents channels de division.',
+    description: 'Setup les permissions',
     rolePermission: [STAFF_EBTV],
     userPersmission: [],
     helpReportType: 1,

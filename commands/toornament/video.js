@@ -37,7 +37,7 @@ module.exports.execute = async (interaction) => {
 
 module.exports.info = {
     name: "lielienvideo",
-    description: 'Commande pour liée une vidéo à un match !',
+    description: 'Lie une vidéo à un match !',
     rolePermission: [STAFF_EBTV, TO, CASTER_INDE],
     userPersmission: [],
     helpReportType: 1,

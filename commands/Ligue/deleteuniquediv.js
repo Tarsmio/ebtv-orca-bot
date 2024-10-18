@@ -41,7 +41,7 @@ module.exports.execute = async (interaction) => {
 
 module.exports.info = {
     name: "supressionuniquedivision",
-    description: 'Commande pour supprimer une division !',
+    description: 'Supprimer une division !',
     rolePermission: [ADMIN],
     userPersmission: [],
     helpReportType: 1,

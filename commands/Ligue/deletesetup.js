@@ -33,7 +33,7 @@ module.exports.execute = async (interaction) => {
 
 module.exports.info = {
     name: "supressiondivisionligue",
-    description: 'Commande pour supprimer toute les division de la ligue',
+    description: 'Supprimer toute les division de la ligue',
     rolePermission: [ADMIN],
     userPersmission: [],
     helpReportType: 1,

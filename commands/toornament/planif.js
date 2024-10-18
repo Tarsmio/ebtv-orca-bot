@@ -25,7 +25,7 @@ module.exports.execute = async (interaction) => {
 
 module.exports.info = {
     name: "planif",
-    description: 'Commande pour planifier un match !',
+    description: 'Planifier un match !',
     rolePermission: [STAFF_EBTV, TO],
     userPersmission: [],
     helpReportType: 1,
