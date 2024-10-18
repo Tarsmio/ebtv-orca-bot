@@ -1,23 +1,21 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { checkUserPermissions } = require('../../utils/logging/logger');
-const { readdirSync } = require("fs")
+const { readdirSync, copyFileSync } = require("fs")
 const { EmbedBuilder } = require('discord.js');
 const permIndex = require('../../utils/permIndex');
-const { connect } = require('http2');
 const categoryList = readdirSync("./commands")
 
 const catEmote = {
-    Bot : ":robot:",
-    Cast : ":red_circle:",
-    Fun : ":game_die:",
-    Ligue : ":squid:",
-    Toornament : ":computer:"
+    Bot: ":robot:",
+    Cast: ":red_circle:",
+    Fun: ":game_die:",
+    Ligue: ":squid:",
+    Toornament: ":computer:"
 }
 
 function hasAcces(cmd, roles) {
-    if(cmd.info.rolePermission.length == 0) return true
+    if (cmd.info.rolePermission.length == 0) return true
 
-    if(cmd.info.rolePermission.some(roleId => roles.cache.has(roleId))) return true
+    if (cmd.info.rolePermission.some(roleId => roles.cache.has(roleId))) return true
 
     return false
 }
@@ -39,20 +37,27 @@ module.exports.execute = async (interaction) => {
             .setColor("#35aa27")
             .setDescription("## Voici la liste des commandes du bot\n\n*Les commandes présentes dans cette liste sont uniquement celles auxquelles vous avez accès*\n")
 
-        categoryList.forEach((cat => {
-            const commandListe = interaction.client.commands.filter(cmd => {
+        categoryList.forEach((async cat => {
+            var commandListe = interaction.client.commands.filter(cmd => {
                 return cmd.info.category === cat.toLocaleLowerCase() && (cmd.info.helpReportType == 0 || (cmd.info.helpReportType == 1 && hasAcces(cmd, interaction.member.roles)))
-            }).map(cmd => cmd.info.name)
+            }).map(cmd => {
+                var cmdId = interaction.client.commandIds.application.find((value, key) => key == cmd.info.name)
+
+                if(!cmdId) cmdId = interaction.client.commandIds.guild.find((value, key) => key == cmd.info.name)
+
+                return cmdId ? `</${cmd.info.name}:${cmdId}> - ${cmd.info.description}` : `/${cmd.name} - ${cmd.info.description}`
+            })
 
             if (commandListe.length > 0) {
+
                 helpEmbed.addFields({
-                    name: `${catEmote[cat]} -- ${cat} -- ${catEmote[cat]}`,
-                    value: `${commandListe.join(", ")}`
+                    name: `${catEmote[cat]} ---- ${cat} ---- ${catEmote[cat]}`,
+                    value: `${commandListe.join("\n")}`
                 })
             }
         }))
 
-        if(!helpEmbed.data.fields) helpEmbed.setDescription("Vous n'avez acces a aucune commande !")
+        if (!helpEmbed.data.fields) helpEmbed.setDescription("Vous n'avez acces a aucune commande !")
 
         interaction.reply({
             embeds: [helpEmbed]
@@ -66,16 +71,24 @@ module.exports.execute = async (interaction) => {
             ephemeral: true
         })
 
-        if(!hasAcces(command, interaction.member.roles)) return interaction.reply({
+        if (!hasAcces(command, interaction.member.roles)) return interaction.reply({
             content: `Je ne peut pas vous montrer la commande **${commandName}** car vous n'y avez pas acces`,
             ephemeral: true
         })
 
-        const cmdId = await interaction.client.application.commands.fetch().then(r => {
+        let cmdId = await interaction.client.application.commands.fetch().then(r => {
             return r.find(cmd => cmd.name === command.info.name).id
         }).catch(err => {
             return false
         })
+
+        if (!cmdId) {
+            cmdId = await interaction.guild.commands.fetch().then(r => {
+                return r.find(cmd => cmd.name === command.info.name).id
+            }).catch(err => {
+                return false
+            })
+        }
 
         const commandJSON = command.dataSlash.toJSON()
 
@@ -92,6 +105,7 @@ module.exports.execute = async (interaction) => {
 
         if (cmdId) {
             commandEmbed.setTitle(`Commande </${command.info.name}:${cmdId}>`)
+            console.log(`</${command.info.name}:${cmdId}>`)
         }
         else {
             commandEmbed.setTitle(`Commande ${command.info.name}`)
@@ -136,13 +150,13 @@ module.exports.execute = async (interaction) => {
 module.exports.autocom = async (interaction) => {
     const option = interaction.options.getFocused(true);
 
-    if(option.name === 'commande'){
+    if (option.name === 'commande') {
         const commandeListe = interaction.client.commands.filter(cmd => hasAcces(cmd, interaction.member.roles) && cmd.info.helpReportType != 2).map(cmd => cmd.info.name)
 
         const filterElement = commandeListe.filter(el => el.startsWith(option.value))
 
         await interaction.respond(
-            filterElement.map(el => ({name : el, value : el}))
+            filterElement.map(el => ({ name: el, value: el }))
         )
     }
 }
@@ -153,7 +167,7 @@ module.exports.info = {
     rolePermission: [],
     userPersmission: [],
     helpReportType: 2,
-    category : "autre"
+    category: "autre"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()
