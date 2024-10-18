@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const { readyLog } = require('../../utils/logs');
+const { loadCommandIds } = require('../../utils/loaders');
 
 module.exports = async (client) => {
     try{
@@ -16,6 +17,9 @@ module.exports = async (client) => {
         console.error('Error updating bot name and avatar:', error);
     }
 
+    client.commandIds = await loadCommandIds(client)
+
     console.log(`Ready! Logged in as ${client.user.tag}`);
+
     readyLog(client)
 }

@@ -41,7 +41,6 @@ module.exports = async (client) => {
                 inline: true
             }
         )
-
-    client.commandIds = await loadCommandIds(client)
+        
     client.channels.cache.get(process.env.CHANNEL_ID_LOG_BOT).send({ embeds: [logEmbed] })
 }
