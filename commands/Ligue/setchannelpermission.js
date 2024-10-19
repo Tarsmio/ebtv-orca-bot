@@ -4,23 +4,13 @@ const { embedBuilder } = require("../../utils/embedBuilder");
 const { STAFF_EBTV } = require('../../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
+    interaction.deferReply()
     try {
         // Get the guild from the interaction
         const guild = interaction.guild;
-        const user = interaction.user;
 
         const stageIds = [
-            "7536642295841865728",
-            "7536640081084391424",
-            "7536596345101762560",
-            "7536593471567388672",
-            "7536584899792535552",
-            "7536577779904667648",
-            "7536551181308936192",
-            "7536546455548297216",
-            "7536542055986692096",
-            "7536536195342868480",
-            "7536519095150829568",
+            "8258131640380170240"
         ]
 
         const targetPattern = /^Division \d+$/;
@@ -149,10 +139,13 @@ module.exports.execute = async (interaction) => {
                     }
                 }
             }
+
         }
+
+        interaction.editReply("Permissions donnés avec succes !")
     } catch (error) {
         console.error(error);
-        interaction.reply({ content: `Une erreur s'est produite lors de l'exécution de la commande : ${error}`, ephemeral: true });
+        interaction.editReply({ content: `Une erreur s'est produite lors de l'exécution de la commande : ${error}`, ephemeral: true });
     }
 }
 
