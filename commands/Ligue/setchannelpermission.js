@@ -142,7 +142,7 @@ module.exports.execute = async (interaction) => {
 
         }
 
-        interaction.editReply("Permissions donnés avec succes !")
+        interaction.editReply("Permissions donné avec succes !")
     } catch (error) {
         console.error(error);
         interaction.editReply({ content: `Une erreur s'est produite lors de l'exécution de la commande : ${error}`, ephemeral: true });
