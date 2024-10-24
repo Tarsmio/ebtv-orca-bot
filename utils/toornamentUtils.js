@@ -9,6 +9,121 @@ function updateTokenInEnvFile(newToken) {
     fs.writeFileSync('.env', Object.entries(envConfig).map(([key, value]) => `${key}=${value}`).join('\n'));
 }
 
+async function getStageIds(rangeMin, rangeMax) {
+    const url = `https://api.toornament.com/organizer/v2/stages?tournament_ids=${process.env.TOORNAMENT_ID}`
+    const config = {
+        headers: {
+            "X-Api-Key" : process.env.API_KEY,
+            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Range' : `stages=${rangeMin.toString()}-${rangeMax.toString()}`
+        }
+    }
+
+    try {
+        const response = await axios.get(url, config)
+        return response
+    } catch (error) {
+        console.error(error);
+        switch (error.response.status) {
+            case 400:
+                throw new Error('Requête Invalide: La requête est mal formée.');
+            case 401:
+                throw new Error('Non autorisé: Le bot ne possède pas un token d\'authentification valide.');
+            case 403:
+                throw new Error('Interdit: Le bot n\'a pas l\'autorisation d\'accéder à cette ressource.');
+            case 404:
+                throw new Error('Non trouvé: La requête effectué n\'existe pas');
+            case 405:
+                throw new Error('Méthode non authorisée: Le type de requête effectuée n\'est pas valide.');
+            case 429:
+                throw new Error('Trop de requête: Le bot a envoyé trop de requête dans un court temps imparti.')
+            case 500:
+                throw new Error('Erreur Serveur: Le serveur a rencontré une erreur imprévue.');
+            default:
+                throw new Error('Une erreur inconnue est survenue, veuillez réessayer plus tard.');
+        }
+    }
+}
+
+async function getStreamIds(rangeMin, rangeMax) {
+    const url = `https://api.toornament.com/organizer/v2/streams?tournament_ids=${process.env.TOORNAMENT_ID}`
+    const config = {
+        headers: {
+            "X-Api-Key" : process.env.API_KEY,
+            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Range' : `streams=${rangeMin.toString()}-${rangeMax.toString()}`
+        }
+    }
+
+    try {
+        const response = await axios.get(url, config)
+        return response
+    } catch (error) {
+        console.error(error);
+        switch (error.response.status) {
+            case 400:
+                throw new Error('Requête Invalide: La requête est mal formée.');
+            case 401:
+                throw new Error('Non autorisé: Le bot ne possède pas un token d\'authentification valide.');
+            case 403:
+                throw new Error('Interdit: Le bot n\'a pas l\'autorisation d\'accéder à cette ressource.');
+            case 404:
+                throw new Error('Non trouvé: La requête effectué n\'existe pas');
+            case 405:
+                throw new Error('Méthode non authorisée: Le type de requête effectuée n\'est pas valide.');
+            case 429:
+                throw new Error('Trop de requête: Le bot a envoyé trop de requête dans un court temps imparti.')
+            case 500:
+                throw new Error('Erreur Serveur: Le serveur a rencontré une erreur imprévue.');
+            default:
+                throw new Error('Une erreur inconnue est survenue, veuillez réessayer plus tard.');
+        }
+    }
+}
+
+async function getRoundIdsOf(stageId) {
+    const url = `https://api.toornament.com/organizer/v2/rounds?stage_ids=${stageId}`
+    const config = {
+        headers: {
+            "X-Api-Key" : process.env.API_KEY,
+            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Range' : `rounds=0-49`
+        }
+    }
+
+    try {
+        const response = await axios.get(url, config)
+
+        let ids = []
+
+        response.data.forEach(round => {
+            ids.push(round.id)
+        });
+
+        return ids
+    }catch (error) {
+        console.error(error);
+        switch (error.response.status) {
+            case 400:
+                throw new Error('Requête Invalide: La requête est mal formée.');
+            case 401:
+                throw new Error('Non autorisé: Le bot ne possède pas un token d\'authentification valide.');
+            case 403:
+                throw new Error('Interdit: Le bot n\'a pas l\'autorisation d\'accéder à cette ressource.');
+            case 404:
+                throw new Error('Non trouvé: La requête effectué n\'existe pas');
+            case 405:
+                throw new Error('Méthode non authorisée: Le type de requête effectuée n\'est pas valide.');
+            case 429:
+                throw new Error('Trop de requête: Le bot a envoyé trop de requête dans un court temps imparti.')
+            case 500:
+                throw new Error('Erreur Serveur: Le serveur a rencontré une erreur imprévue.');
+            default:
+                throw new Error('Une erreur inconnue est survenue, veuillez réessayer plus tard.');
+        }
+    }
+}
+
 async function getParticipants(rangeMin, rangeMax) {
     const url = `https://api.toornament.com/organizer/v2/participants?tournament_ids=${process.env.TOORNAMENT_ID}`
     const config = {
@@ -257,5 +372,8 @@ module.exports = {
     setStreamUrl,
     setStreamMatch,
     getToornamentStreamUrl,
-    getParticipants
+    getParticipants,
+    getStreamIds,
+    getStageIds,
+    getRoundIdsOf
 };
