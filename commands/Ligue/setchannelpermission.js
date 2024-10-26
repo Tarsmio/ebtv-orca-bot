@@ -8,6 +8,7 @@ function setReply(interaction, channel, role){
     let repEmbed = new EmbedBuilder()
         .setTitle("Attribution des permissions ...")
         .setDescription("L'attribution des permissions est en cours !")
+        .setColor("f08300")
         .addFields([
             {
                 name : "Channel actuel",
@@ -130,7 +131,7 @@ module.exports.execute = async (interaction) => {
 
             for (const [channelId, channel] of channelsInCategory) {
                 if (channel.name == `div-${divNumber}-planif`) {
-                    interaction.editReply(`${channel.name} : Cap ligue`)
+                    setReply(interaction, channel, {name: "Cap ligue"})
                     await channel.permissionOverwrites.edit(process.env.ROLE_ID_CAPITAINE, {
                         SendMessages: true,
                     })
@@ -153,7 +154,7 @@ module.exports.execute = async (interaction) => {
                 }
 
                 if (channel.name == `div-${divNumber}-récaps-manches`) {
-                    interaction.editReply(`${channel.name} : Cap ligue`)
+                    setReply(interaction, channel, {name: "Cap ligue"})
                     await channel.permissionOverwrites.edit(process.env.ROLE_ID_CAPITAINE, {
                         SendMessages: true,
                         AttachFiles: true
@@ -179,7 +180,20 @@ module.exports.execute = async (interaction) => {
 
         }
 
-        interaction.editReply("Permissions donné avec succes !")
+        let endEmbed = new EmbedBuilder()
+            .setTitle("Permissions attribuées !")
+            .setDescription("Les salon sont ouvert bonne saison !!!!")
+            .setThumbnail("attachment://check-tic.png")
+            .setColor("#55ff33")
+
+        interaction.editReply({
+            content: "",
+            embeds: [endEmbed],
+            files : [{
+                name : "check-tic.png",
+                attachment : "./images/check-tic.png"
+            }]
+        })
     } catch (error) {
         console.error(error);
         interaction.editReply({ content: `Une erreur s'est produite lors de l'exécution de la commande : ${error}`, ephemeral: true });
