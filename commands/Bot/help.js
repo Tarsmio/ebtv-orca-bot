@@ -105,7 +105,6 @@ module.exports.execute = async (interaction) => {
 
         if (cmdId) {
             commandEmbed.setTitle(`Commande </${command.info.name}:${cmdId}>`)
-            console.log(`</${command.info.name}:${cmdId}>`)
         }
         else {
             commandEmbed.setTitle(`Commande ${command.info.name}`)

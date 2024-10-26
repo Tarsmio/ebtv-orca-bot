@@ -49,9 +49,7 @@ module.exports.execute = async (interaction) => {
                 id: team2Role?.id,
                 name: team2Role?.name
             }
-        };
-
-        console.log(teamRoles)
+        }
 
         if (!teamRoles.team1.id || !teamRoles.team2.id) {
             await interaction.editReply({ content: "Le rôle ou les rôles n'ont pas été trouvés", ephemeral: false });
@@ -63,7 +61,6 @@ module.exports.execute = async (interaction) => {
 
         const matchData = await fetchUniqueMatch(teamRoles.team1.name, teamRoles.team2.name);
 
-        console.log(matchData)
         if (!matchData || matchData.length == 0) {
             throw new Error('Aucun match planifié correspondant n\'a été trouvé.');
         }
