@@ -110,23 +110,24 @@ module.exports.execute = async (interaction) => {
                 permissionOverwrites: [
                     {
                         id: guild.roles.everyone, // @everyone role
-                        deny: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages], // Deny access to everyone
+                        deny: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.CreatePublicThreads], // Deny access to everyone
                     },
                     {
                         id: process.env.BOT_ROLE_ID,
-                        allow: [PermissionsBitField.Flags.ViewChannel]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.CreatePublicThreads]
                     },
                     {
                         id: process.env.ROLE_ID_STAFF_EBTV,
-                        allow: [PermissionsBitField.Flags.ViewChannel]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.CreatePublicThreads]
                     },
                     {
                         id: process.env.ROLE_ID_ASSISTANT_TO,
-                        allow: [PermissionsBitField.Flags.ViewChannel]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.CreatePublicThreads]
                     },
                     {
                         id: roleStat.id,
-                        allow: [PermissionsBitField.Flags.CreatePublicThreads, PermissionsBitField.Flags.SendMessages, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.ViewChannel]
+                        allow: [PermissionsBitField.Flags.SendMessages, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.ViewChannel],
+                        deny: [PermissionsBitField.Flags.CreatePublicThreads]
                     }
                 ]
             })
@@ -161,7 +162,7 @@ module.exports.execute = async (interaction) => {
                 })
 
                 taglist.push({
-                    name: "Fait",
+                    name: "Terminé",
                     emoji: {
                         name:"🟩"
                     }
@@ -190,7 +191,7 @@ module.exports.execute = async (interaction) => {
                         await actChannel.threads.create({
                             name: `${match.opponents[0].participant.name} contre ${match.opponents[1].participant.name}`,
                             message: {
-                                content: "Test"
+                                content: `### Avancement des stats du match ${match.opponents[0].participant.name} contre ${match.opponents[1].participant.name}`
                             },
                             appliedTags: [roudTag.id, toDoTag.id]
                         })
