@@ -43,7 +43,7 @@ module.exports.execute = async (interaction) => {
 
         const nbDivToCreate = await getNbStage();
 
-        interaction.reply({ content: "Les divisions sont en cours de création, vérifiez bien que toutes les divisions sont créer. Ne pas oublier d'autoriser la permission pour modifier les permissions des utilisateurs d'un salon (Manage Permissions) dans les catégories des divisions avant d'utiliser la commande /permissiondivisionligue." })
+        interaction.reply({ content: "Les divisions sont en cours de création, vérifiez bien que toutes les divisions sont créer. Ne pas oublier d'autoriser la permission pour modifier les permissions des utilisateurs d'un salon (Manage Permissions) dans les catégories des divisions avant d'utiliser la commande /permissiondivisionligue. (L'éxecution de cette commande prend enormement de temps)" })
 
         for (let i = 1; i < nbDivToCreate + 1; i++) {
             const roleStat = await guild.roles.create({
@@ -191,7 +191,7 @@ module.exports.execute = async (interaction) => {
                         await actChannel.threads.create({
                             name: `${match.opponents[0].participant.name} contre ${match.opponents[1].participant.name}`,
                             message: {
-                                content: `### Avancement des stats du match ${match.opponents[0].participant.name} contre ${match.opponents[1].participant.name}`
+                                content: `## Avancement des stats du match ${match.opponents[0].participant.name} contre ${match.opponents[1].participant.name}`
                             },
                             appliedTags: [roudTag.id, toDoTag.id]
                         })
