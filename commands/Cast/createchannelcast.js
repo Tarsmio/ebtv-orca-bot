@@ -139,17 +139,17 @@ module.exports.execute = async (interaction) => {
             },
         ]
 
-        if(memberCoCaster !== null){
-          permissionOverwrites.push({
-             id: memberCoCaster,
-             allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
-          });
+        if (memberCoCaster !== null) {
+            permissionOverwrites.push({
+                id: memberCoCaster,
+                allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
+            });
         }
 
         const castChannel = await createCastChannel(guild, castCategory, `${teamRoles.team1.name}-${teamRoles.team2.name}-cast`, permissionOverwrites);
         const castPreparation = `
 📣  Cast de votre match 📺 \n <@&${teamRoles.team1.id}> <@&${teamRoles.team2.id}> \n
-
+Le match sera cast par ${memberCoCaster ? `<@${member.id}> et <@${memberCoCaster.id}>`:`<@${member.id}>`} \n
 Pour bien préparer le cast, merci d’indiquer :\n
 \u2022 Les pronoms des membres de vos équipes
 \u2022 S’il va y avoir des changements entre les manches
@@ -177,7 +177,7 @@ module.exports.info = {
     rolePermission: [STAFF_EBTV, TO, CASTER_INDE],
     userPersmission: [],
     helpReportType: 1,
-    category : "cast"
+    category: "cast"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()
