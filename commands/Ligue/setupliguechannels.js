@@ -35,18 +35,18 @@ const tagEmoteRoundIndex = [
 ]
 
 const lienStatIndex = [
-    "https://docs.google.com/spreadsheets/d/1L-lpAAhnED8gc_K2ddz3fooTXoa7-jcyyGFXqWkG8Ek/edit?usp=drive_link",
-    "Lien D2",
-    "Lien D3",
-    "Lien D4",
-    "Lien D5",
-    "Lien D6",
-    "Lien D7",
-    "Lien D8",
-    "Lien D9",
-    "Lien D10",
-    "Lien D11",
-    "Lien D12",
+    "https://docs.google.com/spreadsheets/d/1L-lpAAhnED8gc_K2ddz3fooTXoa7-jcyyGFXqWkG8Ek/",
+    "https://docs.google.com/spreadsheets/d/1U-0KfsSnoK7WO94BFV62iGAjpnMADCNtqPeoIvGcqyg/",
+    "https://docs.google.com/spreadsheets/d/1v1E5J58r9wE_wGco3fu-FDDfqBG8nFdbRwf-AiesHro/",
+    "https://docs.google.com/spreadsheets/d/1hLYuf6uFSxwk1tdTSYct2luhmaHpgc6sVbtnxzbpshE/",
+    "https://docs.google.com/spreadsheets/d/1qV5GPmK3kmpRNybLsbosn7RWL7JebWsnyfuI3fadDxM/",
+    "https://docs.google.com/spreadsheets/d/1BxlKGGW8L-81N5qV1ATuNdwlkOQ_lcLS8LUG3oqQnPs/",
+    "https://docs.google.com/spreadsheets/d/1_UKIht-OaQI2ZN8mtk_fZIJbCFfpl8Uc2XNw2SkUJW4/",
+    "https://docs.google.com/spreadsheets/d/1XV3ngUzs-T4yn4eFyqcd_DiBX1UnfRtBxyHZXA3hDdg/",
+    "https://docs.google.com/spreadsheets/d/1H_IAGWrSqtKwMeaRSXGHvZhbMsu7fLkdAmoOqXWTFqs/",
+    "https://docs.google.com/spreadsheets/d/1RDzNir9Gkh98kbk7yokqlwM6zNnBkM6-DSsRPQ8OUFs/",
+    "https://docs.google.com/spreadsheets/d/1RPGsg9lTGnHFi5UO0vmHT36B7wyztaI8mDnCbx_7-uk/",
+    "https://docs.google.com/spreadsheets/d/1D1qSr8A6c3dt3FNkMgsY6Rmtnv4Vbyd66ZPhssB9DeA/",
 ]
 
 var statChannels = []
@@ -165,7 +165,6 @@ module.exports.execute = async (interaction) => {
         for (let j = 0; j < nbDivToCreate; j++) {
             const actChannel = statChannels[j]
             const lienStat = lienStatIndex[j]
-            console.log(j)
             setTimeout(async () => {
                 let roundOfDivIds = await getRoundIdsOf(stageIds[j])
 
