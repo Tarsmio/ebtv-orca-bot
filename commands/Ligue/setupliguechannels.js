@@ -76,15 +76,15 @@ module.exports.execute = async (interaction) => {
                     },
                     {
                         id: process.env.BOT_ROLE_ID,
-                        allow: [PermissionsBitField.Flags.ViewChannel]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionFlagsBits.Flags.ManageChannels]
                     },
                     {
                         id: process.env.ROLE_ID_STAFF_EBTV,
-                        allow: [PermissionsBitField.Flags.ViewChannel]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionFlagsBits.Flags.ManageChannels]
                     },
                     {
                         id: process.env.ROLE_ID_ASSISTANT_TO,
-                        allow: [PermissionsBitField.Flags.ViewChannel]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionFlagsBits.Flags.ManageChannels]
                     },
                 ]
             });
@@ -126,19 +126,19 @@ module.exports.execute = async (interaction) => {
                 permissionOverwrites: [
                     {
                         id: guild.roles.everyone, // @everyone role
-                        deny: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.CreatePublicThreads], // Deny access to everyone
+                        deny: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.CreatePublicThreads, PermissionFlagsBits.SendMessagesInThreads], // Deny access to everyone
                     },
                     {
                         id: process.env.BOT_ROLE_ID,
-                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.CreatePublicThreads]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.CreatePublicThreads, PermissionFlagsBits.SendMessagesInThreads]
                     },
                     {
                         id: process.env.ROLE_ID_STAFF_EBTV,
-                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.CreatePublicThreads]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.CreatePublicThreads, PermissionFlagsBits.SendMessagesInThreads]
                     },
                     {
                         id: process.env.ROLE_ID_ASSISTANT_TO,
-                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.CreatePublicThreads]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.CreatePublicThreads, PermissionFlagsBits.SendMessagesInThreads]
                     },
                     {
                         id: roleStat.id,
