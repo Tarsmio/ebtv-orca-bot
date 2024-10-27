@@ -161,7 +161,7 @@ Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !`;
        // await castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, matchData, castPreparation);
 
         if (pinPickAndBan) {
-            const msg = await castChannel.send({ files: ['images/s15_pick_ban.png'] });
+            const msg = await castChannel.send({ files: ['images/s16_pick_ban.png'] });
             await msg.pin();
         }
 
