@@ -76,15 +76,15 @@ module.exports.execute = async (interaction) => {
                     },
                     {
                         id: process.env.BOT_ROLE_ID,
-                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionFlagsBits.Flags.ManageChannels]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages]
                     },
                     {
                         id: process.env.ROLE_ID_STAFF_EBTV,
-                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionFlagsBits.Flags.ManageChannels]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages]
                     },
                     {
                         id: process.env.ROLE_ID_ASSISTANT_TO,
-                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionFlagsBits.Flags.ManageChannels]
+                        allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages]
                     },
                 ]
             });
