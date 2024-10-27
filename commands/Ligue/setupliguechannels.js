@@ -16,7 +16,8 @@ const stageIds = [
     "8264743548782149632",
     "8264744252364947456",
     "8264744933675859968",
-    "8264745766931554304"
+    "8264745766931554304",
+    "8279666790566993920"
 ]
 
 const tagEmoteRoundIndex = [
@@ -31,6 +32,21 @@ const tagEmoteRoundIndex = [
     "8️⃣",
     "9️⃣",
     "🔟"
+]
+
+const lienStatIndex = [
+    "https://docs.google.com/spreadsheets/d/1L-lpAAhnED8gc_K2ddz3fooTXoa7-jcyyGFXqWkG8Ek/edit?usp=drive_link",
+    "Lien D2",
+    "Lien D3",
+    "Lien D4",
+    "Lien D5",
+    "Lien D6",
+    "Lien D7",
+    "Lien D8",
+    "Lien D9",
+    "Lien D10",
+    "Lien D11",
+    "Lien D12",
 ]
 
 var statChannels = []
@@ -148,6 +164,7 @@ module.exports.execute = async (interaction) => {
 
         for (let j = 0; j < nbDivToCreate; j++) {
             const actChannel = statChannels[j]
+            const lienStat = lienStatIndex[j]
             console.log(j)
             setTimeout(async () => {
                 let roundOfDivIds = await getRoundIdsOf(stageIds[j])
@@ -191,7 +208,7 @@ module.exports.execute = async (interaction) => {
                         await actChannel.threads.create({
                             name: `${match.opponents[0].participant.name} contre ${match.opponents[1].participant.name}`,
                             message: {
-                                content: `## Avancement des stats du match ${match.opponents[0].participant.name} contre ${match.opponents[1].participant.name}`
+                                content: `## Avancement des stats du match ${match.opponents[0].participant.name} contre ${match.opponents[1].participant.name}\n\n**Lien vers le sheet de la division => ${lienStat}**`
                             },
                             appliedTags: [roudTag.id, toDoTag.id]
                         })
