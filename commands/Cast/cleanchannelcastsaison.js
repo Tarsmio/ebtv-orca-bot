@@ -19,7 +19,7 @@ module.exports.execute = async (interaction) => {
         const seasonCategory = interaction.guild.channels.cache.filter(channel => channel.type === CHANNEL_CATEGORY_TYPE && targetPattern.test(channel.name));
 
         if (!seasonCategory || seasonCategory.size === 0) {
-            return await interaction.editReply('La catégorie de présaison n\'a pas été trouvée.');
+            return await interaction.editReply('Aucune catégorie de saison trouvé');
         }
 
         seasonCategory.forEach(category => {

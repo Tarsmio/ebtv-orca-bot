@@ -10,10 +10,13 @@ module.exports.execute = async (interaction) => {
 
         //Check for a pattern Division followed by a numeric value
         const targetPattern = /^Division \d+$/;
+        const rolePattern = /^Stat D[0-9]+$/
 
         const divisionCategories = interaction.guild.channels.cache.filter(channel =>
             channel.type === CHANNEL_CATEGORY_TYPE && targetPattern.test(channel.name)
         );
+
+        const roleStat = interaction.guild.roles.cache.filter(role => rolePattern.test(role.name))
 
         divisionCategories.forEach(category => {
             const channelsInCategory = category.children.cache;
@@ -24,6 +27,10 @@ module.exports.execute = async (interaction) => {
 
             category.delete();
         });
+
+        roleStat.forEach(role => {
+            role.delete()
+        })
 
         interaction.editReply({ content: `Les divisions de la saison ont bien été supprimée.`, ephemeral: false });
     } catch (error) {

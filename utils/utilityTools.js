@@ -25,7 +25,7 @@ function checkDivPickBan(divisionName){
     const parts = divisionName.split(" ")
     const divNumber = parseInt(parts[1]);
 
-    if(!isNaN(divNumber) && divNumber <= 6){
+    if(!isNaN(divNumber) && divNumber <= 8){
         return true;
     } else {
         return false;

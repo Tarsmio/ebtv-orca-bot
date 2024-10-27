@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const { readyLog } = require('../../utils/logs');
 const { loadCommandIds } = require('../../utils/loaders');
+const { url } = require('node:inspector');
 
 module.exports = async (client) => {
     try{
@@ -12,6 +13,20 @@ module.exports = async (client) => {
             const newAvatar = fs.readFileSync('./images/Orca.png');
             await client.user.setAvatar(newAvatar);
         }
+
+        const newBanner = fs.readFileSync('./images/banner.png');
+        await client.user.setBanner(newBanner)
+
+        await client.user.setPresence({
+            activities : [
+                {
+                    name: "Ligue ebTV Saison 3",
+                    state: "/help",
+                    type: 5,
+                    url: "https://www.youtube.com/@eSportBrosTV"
+                }
+            ]
+        })
     
     } catch (error){
         console.error('Error updating bot name and avatar:', error);

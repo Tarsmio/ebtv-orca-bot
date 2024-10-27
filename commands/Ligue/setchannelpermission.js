@@ -2,6 +2,29 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getTeamsGroup } = require('../../utils/groupUtils');
 const { embedBuilder } = require("../../utils/embedBuilder");
 const { STAFF_EBTV } = require('../../utils/roleEnum');
+const { EmbedBuilder } = require('discord.js');
+
+function setReply(interaction, channel, role){
+    let repEmbed = new EmbedBuilder()
+        .setTitle("Attribution des permissions ...")
+        .setDescription("L'attribution des permissions est en cours !")
+        .setColor("f08300")
+        .addFields([
+            {
+                name : "Channel actuel",
+                value : channel.name,
+                inline : true
+            },
+            {
+                name : "Role actuel",
+                value : role.name
+            }
+        ])
+
+    interaction.editReply({
+        embeds : [repEmbed]
+    })
+}
 
 module.exports.execute = async (interaction) => {
     interaction.deferReply()
@@ -10,7 +33,17 @@ module.exports.execute = async (interaction) => {
         const guild = interaction.guild;
 
         const stageIds = [
-            "8258131640380170240"
+            "8264675124462264320",
+            "8264737497420021760",
+            "8264738600411373568",
+            "8264739402440654848",
+            "8264740916637990912",
+            "8264741890458460160",
+            "8264742868431765504",
+            "8264743548782149632",
+            "8264744252364947456",
+            "8264744933675859968",
+            "8264745766931554304"
         ]
 
         const targetPattern = /^Division \d+$/;
@@ -80,6 +113,7 @@ module.exports.execute = async (interaction) => {
             for (const roleId of filteredDivisionRoleId) {
                 const role = await guild.roles.fetch(roleId);
                 if (role) {
+                    setReply(interaction, category, role)
                     await category.permissionOverwrites.edit(roleId, {
                         ViewChannel: true,
                         SendMessages: false,
@@ -97,6 +131,7 @@ module.exports.execute = async (interaction) => {
 
             for (const [channelId, channel] of channelsInCategory) {
                 if (channel.name == `div-${divNumber}-planif`) {
+                    setReply(interaction, channel, {name: "Cap ligue"})
                     await channel.permissionOverwrites.edit(process.env.ROLE_ID_CAPITAINE, {
                         SendMessages: true,
                     })
@@ -110,6 +145,7 @@ module.exports.execute = async (interaction) => {
                     for (const roleId of filteredDivisionRoleId) {
                         const role = await guild.roles.fetch(roleId);
                         if (role) {
+                            setReply(interaction, channel, role)
                             await channel.permissionOverwrites.edit(roleId, {
                                 SendMessages: true
                             });
@@ -118,6 +154,7 @@ module.exports.execute = async (interaction) => {
                 }
 
                 if (channel.name == `div-${divNumber}-récaps-manches`) {
+                    setReply(interaction, channel, {name: "Cap ligue"})
                     await channel.permissionOverwrites.edit(process.env.ROLE_ID_CAPITAINE, {
                         SendMessages: true,
                         AttachFiles: true
@@ -132,6 +169,7 @@ module.exports.execute = async (interaction) => {
                     for (const roleId of filteredDivisionRoleId) {
                         const role = await guild.roles.fetch(roleId);
                         if (role) {
+                            setReply(interaction, channel, role)
                             await channel.permissionOverwrites.edit(roleId, {
                                 SendMessages: true
                             });
@@ -142,7 +180,20 @@ module.exports.execute = async (interaction) => {
 
         }
 
-        interaction.editReply("Permissions donnés avec succes !")
+        let endEmbed = new EmbedBuilder()
+            .setTitle("Permissions attribuées !")
+            .setDescription("Les salon sont ouvert bonne saison !!!!")
+            .setThumbnail("attachment://check-tic.png")
+            .setColor("#55ff33")
+
+        interaction.editReply({
+            content: "",
+            embeds: [endEmbed],
+            files : [{
+                name : "check-tic.png",
+                attachment : "./images/check-tic.png"
+            }]
+        })
     } catch (error) {
         console.error(error);
         interaction.editReply({ content: `Une erreur s'est produite lors de l'exécution de la commande : ${error}`, ephemeral: true });
@@ -155,7 +206,7 @@ module.exports.info = {
     rolePermission: [STAFF_EBTV],
     userPersmission: [],
     helpReportType: 1,
-    category : "ligue"
+    category: "ligue"
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()
