@@ -43,7 +43,8 @@ module.exports.execute = async (interaction) => {
             "8264743548782149632",
             "8264744252364947456",
             "8264744933675859968",
-            "8264745766931554304"
+            "8264745766931554304",
+            "8279666790566993920"
         ]
 
         const targetPattern = /^Division \d+$/;
@@ -130,11 +131,46 @@ module.exports.execute = async (interaction) => {
             const channelsInCategory = category.children.cache;
 
             for (const [channelId, channel] of channelsInCategory) {
+                
+                if (channel.name == `division-${divNumber}`) {
+                    const divisionTeams = allTeamsByStage[`Division ${incrementIndex + 1}`];
+                    const divisionRoleID = divisionTeams.map((teamName) => getRoleIdByName(teamName));
+
+                    const filteredDivisionRoleId = divisionRoleID.filter(id => id != null)
+                    for (const roleId of filteredDivisionRoleId) {
+                        const role = await guild.roles.fetch(roleId);
+                        if (role) {
+                            setReply(interaction, channel, role)
+                            await channel.permissionOverwrites.edit(roleId, {
+                                SendMessages: false,
+                                ViewChannel: true
+                            });
+                        }
+                    }
+                }
+
                 if (channel.name == `div-${divNumber}-planif`) {
+                    const divisionTeams = allTeamsByStage[`Division ${incrementIndex + 1}`];
+                    const divisionRoleID = divisionTeams.map((teamName) => getRoleIdByName(teamName));
+
+                    const filteredDivisionRoleId = divisionRoleID.filter(id => id != null)
                     setReply(interaction, channel, {name: "Cap ligue"})
+
                     await channel.permissionOverwrites.edit(process.env.ROLE_ID_CAPITAINE, {
                         SendMessages: true,
+                        ViewChannel: true
                     })
+
+                    for (const roleId of filteredDivisionRoleId) {
+                        const role = await guild.roles.fetch(roleId);
+                        if (role) {
+                            setReply(interaction, channel, role)
+                            await channel.permissionOverwrites.edit(roleId, {
+                                ViewChannel: true,
+                                SendMessages: false
+                            });
+                        }
+                    }
                 }
 
                 if (channel.name == `div-${divNumber}-support`) {
@@ -147,6 +183,7 @@ module.exports.execute = async (interaction) => {
                         if (role) {
                             setReply(interaction, channel, role)
                             await channel.permissionOverwrites.edit(roleId, {
+                                ViewChannel: true,
                                 SendMessages: true
                             });
                         }
@@ -154,11 +191,28 @@ module.exports.execute = async (interaction) => {
                 }
 
                 if (channel.name == `div-${divNumber}-récaps-manches`) {
+                    const divisionTeams = allTeamsByStage[`Division ${incrementIndex + 1}`];
+                    const divisionRoleID = divisionTeams.map((teamName) => getRoleIdByName(teamName));
+
+                    const filteredDivisionRoleId = divisionRoleID.filter(id => id != null)
                     setReply(interaction, channel, {name: "Cap ligue"})
+
                     await channel.permissionOverwrites.edit(process.env.ROLE_ID_CAPITAINE, {
                         SendMessages: true,
+                        ViewChannel: true,
                         AttachFiles: true
                     })
+
+                    for (const roleId of filteredDivisionRoleId) {
+                        const role = await guild.roles.fetch(roleId);
+                        if (role) {
+                            setReply(interaction, channel, role)
+                            await channel.permissionOverwrites.edit(roleId, {
+                                SendMessages: false,
+                                ViewChannel: true
+                            });
+                        }
+                    }
                 }
 
                 if (channel.name == `div-${divNumber}-discussion`) {
@@ -171,7 +225,8 @@ module.exports.execute = async (interaction) => {
                         if (role) {
                             setReply(interaction, channel, role)
                             await channel.permissionOverwrites.edit(roleId, {
-                                SendMessages: true
+                                SendMessages: true,
+                                ViewChannel: true
                             });
                         }
                     }
