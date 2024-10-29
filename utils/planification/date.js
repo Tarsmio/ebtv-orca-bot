@@ -28,7 +28,7 @@ function parseAndFormatDate(dateInput, hourInput) {
 
     // Set the timezone offset accordingly
     // const timezoneOffset = isDaylightSavingTimeInParis  ? "+02:00" : "+01:00";
-    const timezoneOffset = "+02:00";
+    const timezoneOffset = "+01:00";
 
     const formattedDate = `${combinedDate.getFullYear()}-${String(combinedDate.getMonth() + 1).padStart(2, '0')}-${String(combinedDate.getDate()).padStart(2, '0')}T${String(combinedDate.getHours()).padStart(2, '0')}:${String(combinedDate.getMinutes()).padStart(2, '0')}:${String(combinedDate.getSeconds()).padStart(2, '0')}${timezoneOffset}`;
 
