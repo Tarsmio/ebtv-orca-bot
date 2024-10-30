@@ -147,6 +147,8 @@ module.exports.execute = async (interaction) => {
             });
         }
 
+        let dateCast = new Date(matchData[0].scheduled_datetime)
+
         const castChannel = await createCastChannel(guild, castCategory, `${teamRoles.team1.name}-${teamRoles.team2.name}-cast`, permissionOverwrites);
         const castPreparation = `
 📣  Cast de votre match 📺 \n <@&${teamRoles.team1.id}> <@&${teamRoles.team2.id}> \n
@@ -155,7 +157,7 @@ Pour bien préparer le cast, merci d’indiquer :\n
 \u2022 Les pronoms des membres de vos équipes
 \u2022 S’il va y avoir des changements entre les manches
 \u2022 La prononciation du nom de l'équipe ou des pseudos si elle n’est pas simple \n
-Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !`;
+Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !\nVotre match est prévu pour le <t:${Math.floor(dateCast / 1000)}:f>`;
 
 
         await castChannel.send(`${castPreparation}`);
@@ -166,7 +168,6 @@ Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !`;
             await msg.pin();
         }
 
-        let dateCast = new Date(matchData[0].scheduled_datetime)
 
         let repEmbed = new EmbedBuilder()
             .setTitle("Salon de cast créé")
