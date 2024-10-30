@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { PermissionsBitField } = require('discord.js');
+const { PermissionsBitField, EmbedBuilder } = require('discord.js');
 const { checkUserPermissions } = require("../../utils/logging/logger");
 const { formatingString, checkDivPickBan } = require("../../utils/utilityTools");
 const { fetchUniqueMatch } = require("../../utils/matchUtils");
@@ -10,6 +10,7 @@ const { setStreamMatch } = require("../../utils/toornamentUtils")
 const streamManager = require("../../utils/streamManager")
 const STREAM_IDS = require("../../data/streamer_ids.json");
 const { STAFF_EBTV, TO, CASTER_INDE } = require('../../utils/roleEnum');
+const { parseAndFormatDate } = require('../../utils/planification/date');
 
 module.exports.execute = async (interaction) => {
     try {
@@ -146,26 +147,71 @@ module.exports.execute = async (interaction) => {
             });
         }
 
+        let dateCast = new Date(matchData[0].scheduled_datetime)
+
         const castChannel = await createCastChannel(guild, castCategory, `${teamRoles.team1.name}-${teamRoles.team2.name}-cast`, permissionOverwrites);
         const castPreparation = `
 📣  Cast de votre match 📺 \n <@&${teamRoles.team1.id}> <@&${teamRoles.team2.id}> \n
-Le match sera cast par ${memberCoCaster ? `<@${member.id}> et <@${memberCoCaster.id}>`:`<@${member.id}>`} \n
+Le match sera cast par ${memberCoCaster ? `<@${member.id}> et <@${memberCoCaster.id}>` : `<@${member.id}>`} \n
 Pour bien préparer le cast, merci d’indiquer :\n
 \u2022 Les pronoms des membres de vos équipes
 \u2022 S’il va y avoir des changements entre les manches
 \u2022 La prononciation du nom de l'équipe ou des pseudos si elle n’est pas simple \n
-Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !`;
+Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !\nVotre match est prévu pour le <t:${Math.floor(dateCast / 1000)}:f>`;
 
 
         await castChannel.send(`${castPreparation}`);
-       // await castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, matchData, castPreparation);
+        // await castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, matchData, castPreparation);
 
         if (pinPickAndBan) {
-            const msg = await castChannel.send({ files: ['images/s16_pick_ban.png'] });
+            const msg = await castChannel.send({ files: ['images/s16_pick_ban.jpg'] });
             await msg.pin();
         }
 
-        return await interaction.editReply({ content: `Le salon de cast ${castChannel.name} a été crée par ${member.nickname !== null && member.nickname !== "null" ? member.nickname : member.user.username} (${member.user.username} le ${new Date().toLocaleString()})`, ephemeral: false })
+
+        let repEmbed = new EmbedBuilder()
+            .setTitle("Salon de cast créé")
+            .setDescription(`Le salon de cast pour le match ${team1Role.name} contre ${team2Role.name} à été crée !`)
+            .setThumbnail("attachment://cast.png")
+            .setColor("#db0e0e")
+            .addFields([
+                {
+                    name: "Salon",
+                    value: `<#${castChannel.id}>`,
+                    inline: true
+                },
+                {
+                    name: "Date du cast",
+                    value: `<t:${Math.floor(dateCast / 1000)}:f>`,
+                    inline: true
+                }
+            ])
+            .setFooter({
+                text: `Creer par ${member.nickname !== null ? member.nickname : member.user.tag}`,
+                iconURL: member.user.avatarURL({
+                    extension: "png",
+                    size: 64
+                })
+            })
+            .setTimestamp()
+
+        if(memberCoCaster) {
+            repEmbed.addFields([{
+                name: "Co caster",
+                value: `<@${memberCoCaster.user.id}>`,
+                inline: true
+            }])
+        }
+
+        await interaction.editReply({
+            content: "",
+            embeds: [repEmbed],
+            files: [{
+                name: "cast.png",
+                attachment: "./images/cast.png"
+            }]
+        })
+
     } catch (error) {
         await interaction.editReply({ content: `${error}` });
     }
