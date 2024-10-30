@@ -9,7 +9,8 @@ const catEmote = {
     Cast: ":red_circle:",
     Fun: ":game_die:",
     Ligue: ":squid:",
-    Toornament: ":computer:"
+    Toornament: ":computer:",
+    Outils: ":tools:"
 }
 
 function hasAcces(cmd, roles) {
