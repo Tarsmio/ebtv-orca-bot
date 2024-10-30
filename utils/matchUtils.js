@@ -146,7 +146,6 @@ async function getMatchId(team1, team2) {
  * @throws {Error} Throws an error with specific error messages for different HTTP status codes.
  */
 async function fetchUniqueMatch(team1, team2) {
-    console.log(TEAM_IDS[team1])
     const url = `https://api.toornament.com/organizer/v2/matches?participant_ids=${TEAM_IDS[team1]}&tournament_ids=${process.env.TOORNAMENT_ID}&statuses=pending&is_scheduled=1`;
     const config = {
         headers: {
