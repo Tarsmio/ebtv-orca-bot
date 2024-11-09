@@ -1,5 +1,8 @@
 require('dotenv').config();
 const axios = require('axios');
+const { ToornamentTokenGest } = require('./ToornamenTokenGest');
+
+const tokenGestInstance = ToornamentTokenGest.getInstance()
 
 async function fetchGroup(range = "0-49") {
     const url = `https://api.toornament.com/organizer/v2/groups?tournament_ids=${process.env.TOORNAMENT_ID}`;

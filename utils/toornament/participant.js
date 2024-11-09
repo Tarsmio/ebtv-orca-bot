@@ -1,6 +1,8 @@
 const axios = require('axios');
-
 const TEAM_IDS = require("./../../data/teams_ids.json");
+const { ToornamentTokenGest } = require('../ToornamenTokenGest');
+
+const tokenGestInstance = ToornamentTokenGest.getInstance()
 
 async function getUniqueParticipant(participantId) {
     const url = `https://api.toornament.com/organizer/v2/participants/${participantId}`;
@@ -8,7 +10,7 @@ async function getUniqueParticipant(participantId) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
         }
     }
 
@@ -48,7 +50,7 @@ async function setNewLineup(participantId, participantLineup) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
             'Content-Type': 'application/json',
         }
     }
