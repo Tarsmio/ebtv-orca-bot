@@ -72,6 +72,10 @@ class ToornamentTokenGest {
         }
     }
 
+    /**
+     * 
+     * @returns {ToornamentTokenGest}
+     */
     static getInstance(){
         if(instance != null){
             return instance
