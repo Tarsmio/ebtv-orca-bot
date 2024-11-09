@@ -10,7 +10,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.commands = new Collection();
 client.args = process.argv.slice(2)
-client.toornamentToken = new ToornamentTokenGest()
+client.toornamentToken = ToornamentTokenGest.getInstance()
 
 
 loadCommands(client)
