@@ -1,4 +1,7 @@
 const axios = require('axios');
+const { ToornamentTokenGest } = require('../ToornamenTokenGest');
+
+const tokenGestInstance = ToornamentTokenGest.getInstance()
 
 async function setVideo(name, urlVideo, matchId) {
     const url = 'https://api.toornament.com/organizer/v2/videos';
@@ -13,7 +16,7 @@ async function setVideo(name, urlVideo, matchId) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
             'Content-Type': 'application/json',
         }
     }
