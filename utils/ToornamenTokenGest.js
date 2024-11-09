@@ -1,9 +1,17 @@
 const { default: axios } = require("axios");
+const querystring = require('querystring');
 
+var instance = null
 class ToornamentTokenGest {
     #token;
 
     constructor() {
+        if(instance != null){
+            return instance
+        } else {
+            instance = this
+        }
+
         this.#init()
     }
 
@@ -61,6 +69,15 @@ class ToornamentTokenGest {
                 default:
                     throw new Error('Une erreur inconnue est survenue, veuillez réessayer plus tard.');
             }
+        }
+    }
+
+    static getInstance(){
+        if(instance != null){
+            return instance
+        } else {
+            instance = new ToornamentTokenGest()
+            return instance
         }
     }
 }
