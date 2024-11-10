@@ -9,7 +9,7 @@ async function fetchGroup(range = "0-49") {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
             'Range': `groups=${range}`,
         }
     }
