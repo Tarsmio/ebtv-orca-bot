@@ -16,7 +16,7 @@ async function setVideo(name, urlVideo, matchId) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Content-Type': 'application/json',
         }
     }

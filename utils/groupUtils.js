@@ -9,7 +9,7 @@ async function fetchGroup(range = "0-49") {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range': `groups=${range}`,
         }
     }
@@ -51,7 +51,7 @@ async function fetchUniqueGroup(group) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
         }
     }
 
@@ -86,7 +86,7 @@ async function getTeamsGroup(stage_id) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range': `items=0-49`,
         }
     }
