@@ -6,26 +6,31 @@ class ToornamentTokenGest {
     #token;
 
     constructor() {
-        if(instance != null){
+        if (instance != null) {
             return instance
         } else {
             instance = this
         }
 
-        this.#init()
+        this.#setToken()
     }
 
-    get getToken() {
-        return this.#token
+    async getToken() {
+        if(await this.#testToken()){
+            return this.#token
+        } else {
+            await this.#setToken()
+            return await this.getToken()
+        }
     }
 
-    async #init() {
+    async #setToken() {
         let tokenResponse = await this.#genTonken()
 
         this.#token = tokenResponse.access_token
 
         setTimeout(() => {
-            this.#init()
+            this.#setToken()
         }, (tokenResponse.expires_in * 1000) - 3600000)
     }
 
@@ -72,12 +77,33 @@ class ToornamentTokenGest {
         }
     }
 
+    async #testToken() {
+        const url = `https://api.toornament.com/organizer/v2/tournaments/${process.env.TOORNAMENT_ID}`
+        const config = {
+            headers: {
+                "X-Api-Key": process.env.API_KEY,
+                'Authorization': `Bearer ${this.#token}`
+            }
+        }
+
+        try {
+            const response = await axios.get(url, config)
+            if(response.status == 200){
+                return true
+            } else {
+                return false
+            }
+        } catch (error) {
+            return false
+        }
+    }
+
     /**
      * 
      * @returns {ToornamentTokenGest}
      */
-    static getInstance(){
-        if(instance != null){
+    static getInstance() {
+        if (instance != null) {
             return instance
         } else {
             instance = new ToornamentTokenGest()

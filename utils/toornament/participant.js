@@ -10,7 +10,7 @@ async function getUniqueParticipant(participantId) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
         }
     }
 
@@ -50,7 +50,7 @@ async function setNewLineup(participantId, participantLineup) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Content-Type': 'application/json',
         }
     }

@@ -12,7 +12,7 @@ async function fetchMatches(team1, team2) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range': "matches=0-99",
         }
     }
@@ -48,7 +48,7 @@ async function getMatchsOfRounds(roundId) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range': "matches=0-49",
         }
     }
@@ -153,7 +153,7 @@ async function fetchUniqueMatch(team1, team2) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${tokenGestInstance.getToken}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range': "matches=0-5",
         }
     }
@@ -265,7 +265,7 @@ async function setPlanif(interaction, match_date, match_id, team1, team2) {
     const url = `https://api.toornament.com/organizer/v2/matches/${match_id}`;
     const headers = {
         'X-Api-Key': process.env.API_KEY,
-        'Authorization': `Bearer ${tokenGestInstance.getToken}`, //Verify what should be the value of Bearer token
+        'Authorization': `Bearer ${await tokenGestInstance.getToken()}`, //Verify what should be the value of Bearer token
         'Content-Type': 'application/json',
     };
 
@@ -304,7 +304,7 @@ async function setReport(interaction, teamRep, match_id, team1, team2) {
     const url = `https://api.toornament.com/organizer/v2/matches/${match_id}`;
     const headers = {
         'X-Api-Key': process.env.API_KEY,
-        'Authorization': `Bearer ${tokenGestInstance.getToken}`, //Verify what should be the value of Bearer token
+        'Authorization': `Bearer ${await tokenGestInstance.getToken()}`, //Verify what should be the value of Bearer token
         'Content-Type': 'application/json',
     };
 
@@ -342,7 +342,7 @@ async function setResult(interaction, score, match_id, winner, loser, opponent1,
     const url = `https://api.toornament.com/organizer/v2/matches/${match_id}`
     const headers = {
         'X-Api-Key': process.env.API_KEY,
-        'Authorization': `Bearer ${tokenGestInstance.getToken}`, //Verify what should be the value of Bearer token
+        'Authorization': `Bearer ${await tokenGestInstance.getToken()}`, //Verify what should be the value of Bearer token
         'Content-Type': 'application/json',
     };
 
