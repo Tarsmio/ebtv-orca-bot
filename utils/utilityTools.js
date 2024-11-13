@@ -16,6 +16,10 @@ function formatingString(string){
     return stringWithoutSpecialChars.replace(/-+/g, '-');
 }
 
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 /**
  * Checks if the division name corresponds to a valid pick-ban division.
  * @param {string} divisionName - The name of the division to check.
@@ -79,5 +83,6 @@ module.exports = {
     formatingString,
     getDayOfWeekWithDate,
     checkDivPickBan,
-    checkCastTime
+    checkCastTime,
+    randomInt
 }

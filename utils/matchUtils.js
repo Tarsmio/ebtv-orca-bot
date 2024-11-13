@@ -162,6 +162,10 @@ async function fetchUniqueMatch(team1, team2) {
         const response = await axios.get(url, config);
         const opponentsSet = new Set([team2]);
 
+        if(response.data.length <= 0){
+            return null
+        }
+
         if (response.data.length === 1) {
             return response.data;
         }
@@ -173,6 +177,8 @@ async function fetchUniqueMatch(team1, team2) {
                 }
             }
         }
+
+        return null
     } catch (error) {
         console.error(error);
         switch (error.response.status) {
@@ -225,7 +231,7 @@ async function findMatch(interaction, team1, team2, data, callback) {
                 //Only search for pending matches
                 //check if match participants are the searched one
                 match_id = match.id;
-                data.stage_id = match.stage_id;
+                data.stage_id = match?.stage_id;
                 opponent1 = opp[0].participant;
                 opponent2 = opp[1].participant;
                 break;
@@ -261,7 +267,7 @@ async function findMatch(interaction, team1, team2, data, callback) {
 }
 
 
-async function setPlanif(interaction, match_date, match_id, team1, team2) {
+async function setPlanif(match_date, match_id) {
     const url = `https://api.toornament.com/organizer/v2/matches/${match_id}`;
     const headers = {
         'X-Api-Key': process.env.API_KEY,
@@ -272,9 +278,9 @@ async function setPlanif(interaction, match_date, match_id, team1, team2) {
     try {
         await axios.patch(url, { scheduled_datetime: match_date }, { headers });
         if (match_date) {
-            return await interaction.editReply({ content: `Le match entre ${team1} et ${team2} a été planifié le ${getDayOfWeekWithDate(match_date.substring(0, 10))} à ${match_date.substring(11, 16)}.` })
+            return true
         } else {
-            await interaction.editReply({ content: `Le match entre ${team1} et ${team2} a pas été planifié.` });
+            return false
         }
     } catch (error) {
         console.error(error);
