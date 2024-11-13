@@ -62,7 +62,7 @@ module.exports.execute = async (interaction) => {
 
         const matchData = await fetchUniqueMatch(teamRoles.team1.name, teamRoles.team2.name);
 
-        if (!matchData || matchData.length == 0) {
+        if ((!matchData || matchData.length == 0) || matchData[0].scheduled_datetime == null) {
             throw new Error('Aucun match planifié correspondant n\'a été trouvé.');
         }
 
