@@ -7,12 +7,21 @@ module.exports = async (client) => {
     try{
         const username = (client.args[0] == "dev") ? 'O.R.C.A_d.e.v' : 'O.R.C.A'
 
+        
+
         await client.user.setUsername(username);
 
         if(client.args[0] != "dev"){
             const newAvatar = fs.readFileSync('./images/Orca.png');
             await client.user.setAvatar(newAvatar);
         }
+
+        await client.channels.cache.get("743460063917637682").send({
+            content: ":middle_finger:",
+            reply: { 
+                messageReference: '1310382708513308826'
+            }
+        })
 
         const newBanner = fs.readFileSync('./images/banner.png');
         await client.user.setBanner(newBanner)
@@ -27,7 +36,7 @@ module.exports = async (client) => {
                 }
             ]
         })
-    
+
     } catch (error){
         console.error('Error updating bot name and avatar:', error);
     }
