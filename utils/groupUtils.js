@@ -1,12 +1,15 @@
 require('dotenv').config();
 const axios = require('axios');
+const { ToornamentTokenGest } = require('./ToornamenTokenGest');
+
+const tokenGestInstance = ToornamentTokenGest.getInstance()
 
 async function fetchGroup(range = "0-49") {
     const url = `https://api.toornament.com/organizer/v2/groups?tournament_ids=${process.env.TOORNAMENT_ID}`;
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range': `groups=${range}`,
         }
     }
@@ -48,7 +51,7 @@ async function fetchUniqueGroup(group) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
         }
     }
 
@@ -83,7 +86,7 @@ async function getTeamsGroup(stage_id) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range': `items=0-49`,
         }
     }

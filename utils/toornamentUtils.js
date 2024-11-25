@@ -2,6 +2,9 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 const fs = require('fs');
 const querystring = require('querystring');
+const { ToornamentTokenGest } = require('./ToornamenTokenGest');
+
+const tokenGestInstance = ToornamentTokenGest.getInstance()
 
 function updateTokenInEnvFile(newToken) {
     const envConfig = dotenv.parse(fs.readFileSync('.env'));
@@ -14,7 +17,7 @@ async function getStageIds(rangeMin, rangeMax) {
     const config = {
         headers: {
             "X-Api-Key" : process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range' : `stages=${rangeMin.toString()}-${rangeMax.toString()}`
         }
     }
@@ -50,7 +53,7 @@ async function getStreamIds(rangeMin, rangeMax) {
     const config = {
         headers: {
             "X-Api-Key" : process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range' : `streams=${rangeMin.toString()}-${rangeMax.toString()}`
         }
     }
@@ -86,7 +89,7 @@ async function getRoundIdsOf(stageId) {
     const config = {
         headers: {
             "X-Api-Key" : process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range' : `rounds=0-49`
         }
     }
@@ -129,7 +132,7 @@ async function getParticipants(rangeMin, rangeMax) {
     const config = {
         headers: {
             "X-Api-Key" : process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range' : `participants=${rangeMin.toString()}-${rangeMax.toString()}`
         }
     }
@@ -165,7 +168,7 @@ async function getNbStage() {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Range': "stages=0-49",
         }
     }
@@ -251,7 +254,7 @@ async function setStreamUrl(name, urlStream) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Content-Type': 'application/json',
         }
     }
@@ -299,7 +302,7 @@ async function setStreamMatch(match_id, stream_id) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
             'Content-Type': 'application/json',
         }
     }
@@ -335,7 +338,7 @@ async function getToornamentStreamUrl(stream_id) {
     const config = {
         headers: {
             'X-Api-Key': process.env.API_KEY,
-            'Authorization': `Bearer ${process.env.TOORNAMENT_TOKEN}`,
+            'Authorization': `Bearer ${await tokenGestInstance.getToken()}`,
         }
     }
 
