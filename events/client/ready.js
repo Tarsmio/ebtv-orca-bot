@@ -16,12 +16,12 @@ module.exports = async (client) => {
             await client.user.setAvatar(newAvatar);
         }
 
-        await client.channels.cache.get("743460063917637682").send({
+        /*await client.channels.cache.get("743460063917637682").send({
             content: "Oui",
             reply: { 
                 messageReference: '1314175372706840646'
             }
-        })
+        })*/
 
         const newBanner = fs.readFileSync('./images/banner.png');
         await client.user.setBanner(newBanner)
