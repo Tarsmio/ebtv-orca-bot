@@ -344,7 +344,7 @@ async function setReport(interaction, teamRep, match_id, team1, team2) {
     }
 }
 
-async function setResult(interaction, score, match_id, winner, loser, opponent1, opponent2) {
+async function setResult(score, match_id, winner, opponent1, opponent2) {
     const url = `https://api.toornament.com/organizer/v2/matches/${match_id}`
     const headers = {
         'X-Api-Key': process.env.API_KEY,
@@ -370,7 +370,8 @@ async function setResult(interaction, score, match_id, winner, loser, opponent1,
         }, { headers })
 
         score = `**${score[0]}**-${score[2]}`;
-        await interaction.editReply({ content: `Résultat du match : **${winner}** ${score} ${loser}` });
+        //await interaction.editReply({ content: `Résultat du match : **${winner}** ${score} ${loser}` });
+        return score
     } catch (error) {
         console.error(error);
         switch (error.response.status) {

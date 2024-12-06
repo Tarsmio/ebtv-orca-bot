@@ -39,6 +39,10 @@ module.exports.execute = async (interaction) => {
                 return await interaction.editReply({
                     content: `Eh ben putain t'as bien pris ton temps à planif ducon hein ? Tout ça pour le planifier pour le ${getDayOfWeekWithDate(formattedDate.substring(0, 10))} à ${formattedDate.substring(11, 16)} ?! Non mais quelle plaie je te jure... Et t'as pensé au caster ? Non évidemment que non ! Peuchère...\n\nBisous`
                 })
+            } else if(interaction.user.id == "362246536286961665"){
+                return await interaction.editReply({
+                    content: `Mon tres cher Gaby t'as de la chance que je sois obliger de repondre a ta demande ||:middle_finger:||`
+                })
             } else {
                 return await interaction.editReply({ content: `Le match entre ${match[0].opponents[0].participant.name} et ${match[0].opponents[1].participant.name} a été planifié pour le ${getDayOfWeekWithDate(formattedDate.substring(0, 10))} à ${formattedDate.substring(11, 16)}.` })
             }

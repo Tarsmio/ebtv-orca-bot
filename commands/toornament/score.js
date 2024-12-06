@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { findMatch, setResult } = require("../../utils/matchUtils");
+const { findMatch, setResult, fetchUniqueMatch } = require("../../utils/matchUtils");
 const { checkUserPermissions } = require("../../utils/logging/logger");
 const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
 
@@ -24,11 +24,30 @@ module.exports.execute = async (interaction) => {
         await interaction.editReply({ content: "Format du score invalide.", ephemeral: false });
     }
 
-    findMatch(interaction,
-        team1,
-        team2,
-        score,
-        setResult);
+    let match = await fetchUniqueMatch(
+        interaction.options.getRole("équipe1").name,
+        interaction.options.getRole("équipe2").name
+    );
+
+    if(match == null){
+        return interaction.editReply({
+            content : "Match introuvable !"
+        })
+    }
+
+    let scoreFinal = await setResult(score, match[0].id, team1, match.opponents[0].participant, match.opponents[1].participant)
+
+    if (scoreFinal != null){
+        if(interaction.user.id == "362246536286961665"){
+            return await interaction.editReply({
+                content: `Mon tres cher Gaby t'as de la chance que je sois obliger de repondre a ta demande ||:middle_finger:||`
+            })
+        } else {
+            return await interaction.editReply({
+                content:`**${team1}** ${score} ${team2}`
+            })
+        }
+    }
 }
 
 module.exports.info = {
