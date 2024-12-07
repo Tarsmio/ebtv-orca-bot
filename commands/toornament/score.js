@@ -35,7 +35,7 @@ module.exports.execute = async (interaction) => {
         })
     }
 
-    let scoreFinal = await setResult(score, match[0].id, team1, match.opponents[0].participant, match.opponents[1].participant)
+    let scoreFinal = await setResult(score, match[0].id, team1, match[0].opponents[0].participant, match[0].opponents[1].participant)
 
     if (scoreFinal != null){
         if(interaction.user.id == "362246536286961665"){
