@@ -167,7 +167,9 @@ module.exports.info = {
     rolePermission: [],
     userPersmission: [],
     helpReportType: 2,
-    category: "autre"
+    category: "autre",
+    active: true,
+    isPublic: true
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()

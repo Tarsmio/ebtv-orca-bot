@@ -2,12 +2,11 @@ const fs = require('node:fs');
 const { readyLog } = require('../../utils/logs');
 const { loadCommandIds } = require('../../utils/loaders');
 const { url } = require('node:inspector');
+const { deploySlashCommands, deployPrivateSlashCommands } = require('../../utils/slashDeployer');
 
 module.exports = async (client) => {
     try{
         const username = (client.args[0] == "dev") ? 'O.R.C.A_d.e.v' : 'O.R.C.A'
-
-        
 
         await client.user.setUsername(username);
 
@@ -22,6 +21,9 @@ module.exports = async (client) => {
                 messageReference: '1314175372706840646'
             }
         })*/
+
+        deploySlashCommands(client)
+        deployPrivateSlashCommands(client)
 
         const newBanner = fs.readFileSync('./images/banner.png');
         await client.user.setBanner(newBanner)

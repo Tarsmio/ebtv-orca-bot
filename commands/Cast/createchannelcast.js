@@ -223,7 +223,9 @@ module.exports.info = {
     rolePermission: [STAFF_EBTV, TO, CASTER_INDE],
     userPersmission: [],
     helpReportType: 1,
-    category: "cast"
+    category: "cast",
+    active: true,
+    isPublic: true
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()
