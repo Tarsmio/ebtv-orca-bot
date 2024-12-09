@@ -14,7 +14,8 @@ module.exports.execute = async (interaction) => {
         //Check for Division followed by a digit
         const targetPattern = /^Division \d+$/;
         //Get channels which doesn't have div- or division- in their name
-        const channelPattern = /^(?!(div-\d+|division-\d+)).*/;
+        //const channelPattern = /^(?!(div-\d+|division-\d+)).*/;
+        const channelPattern = /^(?!(div-[0-9]{1,}|division-[0-9]{1,}|artprize-)).*/
 
         const seasonCategory = interaction.guild.channels.cache.filter(channel => channel.type === CHANNEL_CATEGORY_TYPE && targetPattern.test(channel.name));
 
