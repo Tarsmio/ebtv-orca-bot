@@ -27,7 +27,7 @@ const loadEvents = (botClient, dir = "./events/") => {
 }
 
 const loadCommandIds = async (client) => {
-    const guild = client.guilds.cache.find(guild => guild.id = process.env.DEV_SERV)
+    const guild = client.guilds.cache.find(guild => guild.id = process.env.DISCORD_GUILD_ID)
     var ids = {
         application : new Collection(),
         guild : new Collection()

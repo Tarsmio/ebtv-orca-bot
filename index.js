@@ -6,7 +6,7 @@ const { getNbStage, getParticipants, getStreamIds, getStageIds } = require('./ut
 const { ToornamentTokenGest } = require('./utils/ToornamenTokenGest');
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] });
 
 client.commands = new Collection();
 client.args = process.argv.slice(2)
