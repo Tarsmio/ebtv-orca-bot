@@ -60,42 +60,43 @@ module.exports.execute = async (interaction) => {
         const channelBaseNameFormated = formatingString(`${teamRoles.team1.name}-${teamRoles.team2.name}-cast`);
         const channelBaseNameFormatedReverse = formatingString(`${teamRoles.team2.name}-${teamRoles.team1.name}-cast`);
 
-        const matchData = await fetchUniqueMatch(teamRoles.team1.name, teamRoles.team2.name);
+        //const matchData = await fetchUniqueMatch(teamRoles.team1.name, teamRoles.team2.name);
 
-        if ((!matchData || matchData.length == 0) || matchData[0].scheduled_datetime == null) {
-            throw new Error('Aucun match planifié correspondant n\'a été trouvé.');
-        }
+        //if ((!matchData || matchData.length == 0) || matchData[0].scheduled_datetime == null) {
+            //throw new Error('Aucun match planifié correspondant n\'a été trouvé.');
+        //}
 
-        if (!matchData[0].opponents || matchData[0].opponents.length === 0) {
-            throw new Error('Aucun adversaire trouvé pour le match sélectionné.');
-        }
+        //if (!matchData[0].opponents || matchData[0].opponents.length === 0) {
+            //throw new Error('Aucun adversaire trouvé pour le match sélectionné.');
+        //}
 
-        const opponent1Name = matchData[0].opponents[0]?.participant?.name;
-        const opponent2Name = matchData[0].opponents[1]?.participant?.name;
+        //const opponent1Name = matchData[0].opponents[0]?.participant?.name;
+        //const opponent2Name = matchData[0].opponents[1]?.participant?.name;
 
         //Check if name of both teams correspond to the fetched match
-        if (!(teamRoles.team1.name === opponent1Name || teamRoles.team1.name === opponent2Name) ||
-            !(teamRoles.team2.name === opponent1Name || teamRoles.team2.name === opponent2Name)) {
-            throw new Error('Aucun match planifié a été trouvée pour ces deux équipes.');
-        }
+        //if (!(teamRoles.team1.name === opponent1Name || teamRoles.team1.name === opponent2Name) ||
+            //!(teamRoles.team2.name === opponent1Name || teamRoles.team2.name === opponent2Name)) {
+            //throw new Error('Aucun match planifié a été trouvée pour ces deux équipes.');
+        //}
 
-        const divisionName = await fetchUniqueGroup(matchData[0]?.group_id);
+        //const divisionName = await fetchUniqueGroup(matchData[0]?.group_id);
         //Regular expression which check for the category presaison name, regardless of emoji if they are any in the category name
-        //const targetPattern = /casts ind[eé]pendants/i;
+        const targetPattern = /casts ind[eé]pendants/i;
 
         //Match any string that contain divisionPattern as a substring
-        const divisionPattern = divisionName.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        //const divisionPattern = divisionName.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-        const castCategory = await getCategoryCastMatch(guild, divisionPattern);
+        //const castCategory = await getCategoryCastMatch(guild, divisionPattern);
 
-        //const castCategory = guild.channels.cache.filter(channel => channel.type === 4 && targetPattern.test(channel.name)).first();
+        const castCategory = guild.channels.cache.filter(channel => channel.type === 4 && targetPattern.test(channel.name)).first();
 
         if (!castCategory || castCategory.size === 0) {
             return await interaction.editReply('La catégorie où doit être placé le salon n\'a pas été trouvée.');
             // return await interaction.reply('La catégorie de présaison n\'a pas été trouvée.');
         }
 
-        const pinPickAndBan = checkDivPickBan(castCategory.name);
+        //const pinPickAndBan = checkDivPickBan(castCategory.name);
+        const pinPickAndBan = false
 
         const channelCastExisting = await checkExistingChannels(castCategory, channelBaseNameFormated, channelBaseNameFormatedReverse)
 
@@ -104,10 +105,10 @@ module.exports.execute = async (interaction) => {
         }
 
         //Set the stream url of the caster to the match
-        if (STREAM_IDS[member.id] !== undefined) {
-            await setStreamMatch(matchData[0].id, STREAM_IDS[member.id])
-            await streamManager.setStreamUrl(member.id)
-        }
+        //if (STREAM_IDS[member.id] !== undefined) {
+            //await setStreamMatch(matchData[0].id, STREAM_IDS[member.id])
+            //await streamManager.setStreamUrl(member.id)
+        //}
 
         const permissionOverwrites = [
             {
@@ -147,7 +148,8 @@ module.exports.execute = async (interaction) => {
             });
         }
 
-        let dateCast = new Date(matchData[0].scheduled_datetime)
+        //let dateCast = new Date(matchData[0].scheduled_datetime)
+        // Votre match est prévu pour le <t:${Math.floor(dateCast / 1000)}:f>
 
         const castChannel = await createCastChannel(guild, castCategory, `${teamRoles.team1.name}-${teamRoles.team2.name}-cast`, permissionOverwrites);
         const castPreparation = `
@@ -157,7 +159,7 @@ Pour bien préparer le cast, merci d’indiquer :\n
 \u2022 Les pronoms des membres de vos équipes
 \u2022 S’il va y avoir des changements entre les manches
 \u2022 La prononciation du nom de l'équipe ou des pseudos si elle n’est pas simple \n
-Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !\nVotre match est prévu pour le <t:${Math.floor(dateCast / 1000)}:f>`;
+Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !\n`;
 
 
         await castChannel.send(`${castPreparation}`);
@@ -179,12 +181,12 @@ Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !\nV
                     name: "Salon",
                     value: `<#${castChannel.id}>`,
                     inline: true
-                },
-                {
-                    name: "Date du cast",
-                    value: `<t:${Math.floor(dateCast / 1000)}:f>`,
-                    inline: true
-                }
+                }//,
+                //{
+                  //  name: "Date du cast",
+                    //value: `<t:${Math.floor(dateCast / 1000)}:f>`,
+                    //inline: true
+                //}
             ])
             .setFooter({
                 text: `Creer par ${member.nickname !== null ? member.nickname : member.user.tag}`,

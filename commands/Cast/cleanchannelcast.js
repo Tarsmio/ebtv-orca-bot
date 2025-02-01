@@ -10,8 +10,8 @@ module.exports.execute = async (interaction) => {
         const CHANNEL_CATEGORY_TYPE = 4;
 
         //Check for présaison or presaison pattern
-        const targetPatternChannelPre = /.*indés$/i;
-        const targetPattern = /casts ind[eé]pendants/i
+        const targetPatternChannelPre = /^présaison-*/i;
+        const targetPattern = /présaison S[1-9]/i
 
         const preSaisonCategory = interaction.guild.channels.cache.filter(channel => channel.type === CHANNEL_CATEGORY_TYPE && targetPattern.test(channel.name)).first();
 
