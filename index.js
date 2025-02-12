@@ -4,6 +4,7 @@ const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { loadCommands, loadEvents } = require('./utils/loaders');
 const { getNbStage, getParticipants, getStreamIds, getStageIds } = require('./utils/toornamentUtils');
 const { ToornamentTokenGest } = require('./utils/ToornamenTokenGest');
+const { map } = require('./db');
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] });

@@ -10,10 +10,10 @@ module.exports = async (client) => {
 
         await client.user.setUsername(username);
 
-        if(client.args[0] != "dev"){
+        /*if(client.args[0] != "dev"){
             const newAvatar = fs.readFileSync('./images/Orca.png');
             await client.user.setAvatar(newAvatar);
-        }
+        }*/
 
         /*await client.channels.cache.get("743460063917637682").send({
             content: "Oui",
@@ -22,10 +22,7 @@ module.exports = async (client) => {
             }
         })*/
 
-        deploySlashCommands(client)
-        deployPrivateSlashCommands(client)
-
-        const newBanner = fs.readFileSync('./images/banner.png');
+        /*const newBanner = fs.readFileSync('./images/banner.png');
         await client.user.setBanner(newBanner)
 
         await client.user.setPresence({
@@ -37,11 +34,14 @@ module.exports = async (client) => {
                     url: "https://www.youtube.com/@eSportBrosTV"
                 }
             ]
-        })
+        })*/
 
     } catch (error){
         console.error('Error updating bot name and avatar:', error);
     }
+
+    await deploySlashCommands(client)
+    await deployPrivateSlashCommands(client)
 
     client.commandIds = await loadCommandIds(client)
 

@@ -96,7 +96,7 @@ module.exports.execute = async (interaction) => {
         }
 
         //const pinPickAndBan = checkDivPickBan(castCategory.name);
-        const pinPickAndBan = false
+        const pinPickAndBan = true
 
         const channelCastExisting = await checkExistingChannels(castCategory, channelBaseNameFormated, channelBaseNameFormatedReverse)
 
