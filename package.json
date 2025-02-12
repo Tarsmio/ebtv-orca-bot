@@ -4,6 +4,7 @@
   "description": "A bot which help the gestion of the ebtv league",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Laharl, Tarsmio",
@@ -13,6 +14,7 @@
     "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
     "ebtv_sp3": "file:",
+    "mysql": "^2.18.1",
     "orca_ebtv": "file:"
   },
   "repository": {
