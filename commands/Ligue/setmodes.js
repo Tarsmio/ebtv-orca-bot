@@ -3,9 +3,19 @@ const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
 const { EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRow, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const mIndex = require("../../utils/modeIndex");
 const { mapDB } = require('../../db');
+const emoteModeIndex = require('../../utils/emoteModeIndex');
 
 module.exports.execute = async (interaction) => {
     let selectedModes = []
+
+    const tooLongEmbed = new EmbedBuilder()
+        .setTitle("Trop long !")
+        .setDescription("Vous avez pris trop de temps a repondre !")
+        .setThumbnail("attachment://sablier.png")
+        .setColor("#0721dc")
+        .setFooter({
+            text: "J'ai pas tout ton temps"
+        })
 
     await interaction.reply("Merci d'attendre ...")
 
@@ -23,12 +33,14 @@ module.exports.execute = async (interaction) => {
         const embed = new EmbedBuilder()
             .setTitle(`Liste des modes (${nb} / 7)`)
             .setDescription(`Veuillez choisir le mode pour la manche n°${nb}`)
+            .setThumbnail("attachment://a.png")
+            .setColor("#900C3F")
 
         if (selectedModes.length > 0) {
             let textePre = []
 
             for (let j = 0; j < selectedModes.length; j++) {
-                textePre.push(`- Manche n°${j + 1} - ${mIndex[selectedModes[j]]}`)
+                textePre.push(`- Manche n°${j + 1} - ${emoteModeIndex[selectedModes[j]]} ${mIndex[selectedModes[j]]}`)
             }
 
             embed.addFields({
@@ -71,13 +83,21 @@ module.exports.execute = async (interaction) => {
             response = await toUpdate.editReply({
                 content: "",
                 embeds: [embed],
-                components: [row]
+                components: [row],
+                files: [{
+                    name: "a.png",
+                    attachment: "./images/setting.png"
+                }]
             })
         } else {
             response = await toUpdate.update({
                 content: "",
                 embeds: [embed],
-                components: [row]
+                components: [row],
+                files: [{
+                    name: "a.png",
+                    attachment: "./images/setting.png"
+                }]
             })
         }
 
@@ -96,20 +116,26 @@ module.exports.execute = async (interaction) => {
     }
 
     if (!await recursiveModeSelection(1, interaction)) return interaction.editReply({
-        content: "Trop long :middle_finger:",
-        embeds: [],
-        components: []
+        content: "",
+        embeds: [tooLongEmbed],
+        components: [],
+        files: [{
+            name: "sablier.png",
+            attachment: "./images/sablier.png"
+        }]
     })
 
     let textePre = []
 
     for (let k = 0; k < selectedModes.length; k++) {
-        textePre.push(`- Manche n°${k + 1} - ${mIndex[selectedModes[k]]}`)
+        textePre.push(`- Manche n°${k + 1} - ${emoteModeIndex[selectedModes[k]]} ${mIndex[selectedModes[k]]}`)
     }
 
     const confirmationEmbed = new EmbedBuilder()
         .setTitle("Confirmation des modes")
         .setDescription(`Voici la liste des modes choisie :\n${textePre.join("\n")}`)
+        .setThumbnail("attachment://a.png")
+        .setColor("#f18e00")
 
     const okBut = new ButtonBuilder()
         .setCustomId("okMode")
@@ -127,7 +153,11 @@ module.exports.execute = async (interaction) => {
     let rep = await interaction.editReply({
         content: "",
         embeds: [confirmationEmbed],
-        components: [row]
+        components: [row],
+        files: [{
+            name: "a.png",
+            attachment: "./images/setting.png"
+        }]
     })
 
 
@@ -136,7 +166,7 @@ module.exports.execute = async (interaction) => {
     try {
         const confirmation = await rep.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
         if (confirmation.customId === 'okMode') {
-            let formatedlModListe= {
+            let formatedlModListe = {
                 mUn: selectedModes[0],
                 mDeux: selectedModes[1],
                 mTrois: selectedModes[2],
@@ -146,31 +176,62 @@ module.exports.execute = async (interaction) => {
                 mSept: selectedModes[6],
             }
 
-            if(await mapDB.modeActuel.changeModeActuel(formatedlModListe)){
+            if (await mapDB.modeActuel.changeModeActuel(formatedlModListe)) {
+
+                confirmationEmbed.setColor("#07dc14")
+                confirmationEmbed.setDescription(`Vous avez confirmer la liste suivante:\n${textePre.join("\n")}`)
+                confirmationEmbed.setThumbnail("attachment://good.png")
+
                 return interaction.editReply({
-                    content: "C'est fait !",
-                    embeds: [],
-                    components: []
+                    content: "",
+                    embeds: [confirmationEmbed],
+                    components: [],
+                    files: [{
+                        name: "good.png",
+                        attachment: "./images/check-tic.png"
+                    }]
                 })
             } else {
+
+                confirmationEmbed.setDescription("Oups il semblerait qu'une erreur soit survenue !")
+                confirmationEmbed.setThumbnail("attachment://bad.png")
+                confirmationEmbed.setColor("#dc1d07")
+
                 return interaction.editReply({
-                    content: "Oups",
-                    embeds: [],
-                    components: []
+                    content: "",
+                    embeds: [confirmationEmbed],
+                    components: [],
+                    files: [{
+                        name: "bad.png",
+                        attachment: "./images/setAbort.png"
+                    }]
                 })
             }
         } else {
+
+            confirmationEmbed.setDescription(`Vous avez anuler la mise en place de la liste des modes suivante :\n${textePre.join("\n")}`)
+            confirmationEmbed.setThumbnail("attachment://bad.png")
+            confirmationEmbed.setColor("#dc1d07")
+
             return interaction.editReply({
-                content: "Bye Bye :wave:",
-                embeds: [],
-                components: []
+                content: "",
+                embeds: [confirmationEmbed],
+                components: [],
+                files: [{
+                    name: "bad.png",
+                    attachment: "./images/setAbort.png"
+                }]
             })
         }
     } catch {
         return interaction.editReply({
-            content: "Trop long :middle_finger:",
-            embeds: [],
-            components: []
+            content: "",
+            embeds: [tooLongEmbed],
+            components: [],
+            files: [{
+                name: "sablier.png",
+                attachment: "./images/sablier.png"
+            }]
         })
     }
 }
