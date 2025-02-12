@@ -11,6 +11,9 @@ const streamManager = require("../../utils/streamManager")
 const STREAM_IDS = require("../../data/streamer_ids.json");
 const { STAFF_EBTV, TO, CASTER_INDE } = require('../../utils/roleEnum');
 const { parseAndFormatDate } = require('../../utils/planification/date');
+const { mapDB } = require('../../db');
+const modeIndex = require('../../utils/modeIndex');
+const emoteModeIndex = require('../../utils/emoteModeIndex');
 
 module.exports.execute = async (interaction) => {
     try {
@@ -148,6 +151,10 @@ module.exports.execute = async (interaction) => {
             });
         }
 
+        modes = await mapDB.modeActuel.getModesActuel()
+
+
+
         //let dateCast = new Date(matchData[0].scheduled_datetime)
         // Votre match est prévu pour le <t:${Math.floor(dateCast / 1000)}:f>
 
@@ -159,14 +166,15 @@ Pour bien préparer le cast, merci d’indiquer :\n
 \u2022 Les pronoms des membres de vos équipes
 \u2022 S’il va y avoir des changements entre les manches
 \u2022 La prononciation du nom de l'équipe ou des pseudos si elle n’est pas simple \n
-Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !\n`;
+Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !\n
+L'odre des modes est le suivant :\n- ${emoteModeIndex[modes.mUn]} ${modeIndex[modes.mUn]}\n- ${emoteModeIndex[modes.mDeux]} ${modeIndex[modes.mDeux]}\n- ${emoteModeIndex[modes.mTrois]} ${modeIndex[modes.mTrois]}\n- ${emoteModeIndex[modes.mQuatre]} ${modeIndex[modes.mQuatre]}\n- ${emoteModeIndex[modes.mCinq]} ${modeIndex[modes.mCinq]}\n- ${emoteModeIndex[modes.mSix]} ${modeIndex[modes.mSix]}\n- ${emoteModeIndex[modes.mSept]} ${modeIndex[modes.mSept]}`;
 
 
         await castChannel.send(`${castPreparation}`);
         // await castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, matchData, castPreparation);
 
         if (pinPickAndBan) {
-            const msg = await castChannel.send({ files: ['images/s16_pick_ban.jpg'] });
+            const msg = await castChannel.send({ files: ['images/s17_pick_ban.png'] });
             await msg.pin();
         }
 
