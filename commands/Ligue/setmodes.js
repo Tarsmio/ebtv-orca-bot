@@ -244,7 +244,7 @@ module.exports.info = {
     helpReportType: 1,
     category: "ligue",
     active: true,
-    isPublic: false
+    isPublic: true
 }
 
 module.exports.dataSlash = new SlashCommandBuilder()
