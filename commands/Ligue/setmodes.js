@@ -4,9 +4,11 @@ const { EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, Ac
 const mIndex = require("../../utils/modeIndex");
 const { mapDB } = require('../../db');
 const emoteModeIndex = require('../../utils/emoteModeIndex');
+const { embedBuilder } = require('../../utils/embedBuilder');
 
 module.exports.execute = async (interaction) => {
     let selectedModes = []
+    let testAnulation = "ahaha"
 
     const tooLongEmbed = new EmbedBuilder()
         .setTitle("Trop long !")
@@ -74,8 +76,17 @@ module.exports.execute = async (interaction) => {
                     .setValue("3")
             )
 
+        let annulerBut = new ButtonBuilder()
+            .setCustomId("annuler")
+            .setLabel("Annuler")
+            .setEmoji(process.env.U_EMOTE_ID)
+            .setStyle(ButtonStyle.Danger)
+
         let row = new ActionRowBuilder()
             .addComponents(selectModeMenu)
+
+        let rowAn = new ActionRowBuilder()
+            .addComponents(annulerBut)
 
         let response = null
 
@@ -83,7 +94,7 @@ module.exports.execute = async (interaction) => {
             response = await toUpdate.editReply({
                 content: "",
                 embeds: [embed],
-                components: [row],
+                components: [row, rowAn],
                 files: [{
                     name: "a.png",
                     attachment: "./images/setting.png"
@@ -93,7 +104,7 @@ module.exports.execute = async (interaction) => {
             response = await toUpdate.update({
                 content: "",
                 embeds: [embed],
-                components: [row],
+                components: [row, rowAn],
                 files: [{
                     name: "a.png",
                     attachment: "./images/setting.png"
@@ -109,13 +120,37 @@ module.exports.execute = async (interaction) => {
             if (confirmation.customId === 'modeActSelectMenu') {
                 selectedModes.push(parseInt(confirmation.values[0]))
                 return await recursiveModeSelection(nb + 1, confirmation)
+            } else {
+                let stopEmbed = new EmbedBuilder()
+                    .setTitle("Liste des modes")
+                    .setDescription(`Vous avez anuler la mise en place de la liste des modes`)
+                    .setThumbnail("attachment://bad.png")
+                    .setColor("#dc1d07")
+
+                testAnulation = await interaction.editReply({
+                    content: "",
+                    embeds: [stopEmbed],
+                    components: [],
+                    files: [{
+                        name: "bad.png",
+                        attachment: "./images/setAbort.png"
+                    }]
+                })
+
+                return testAnulation
             }
         } catch {
             return false
         }
     }
 
-    if (!await recursiveModeSelection(1, interaction)) return interaction.editReply({
+    let resultExecution = await recursiveModeSelection(1, interaction)
+
+    if(testAnulation == resultExecution){
+        return
+    }
+
+    if (!resultExecution) return interaction.editReply({
         content: "",
         embeds: [tooLongEmbed],
         components: [],
@@ -124,6 +159,7 @@ module.exports.execute = async (interaction) => {
             attachment: "./images/sablier.png"
         }]
     })
+
 
     let textePre = []
 
@@ -140,11 +176,13 @@ module.exports.execute = async (interaction) => {
     const okBut = new ButtonBuilder()
         .setCustomId("okMode")
         .setStyle(ButtonStyle.Success)
+        .setEmoji(process.env.Y_EMOTE_ID)
         .setLabel("Confirmer")
 
     const noBut = new ButtonBuilder()
         .setCustomId("noMode")
         .setStyle(ButtonStyle.Danger)
+        .setEmoji(process.env.U_EMOTE_ID)
         .setLabel("Annuler")
 
     let row = new ActionRowBuilder()
