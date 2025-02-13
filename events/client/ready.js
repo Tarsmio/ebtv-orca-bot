@@ -23,18 +23,18 @@ module.exports = async (client) => {
         })*/
 
         /*const newBanner = fs.readFileSync('./images/banner.png');
-        await client.user.setBanner(newBanner)
+        await client.user.setBanner(newBanner)*/
 
         await client.user.setPresence({
             activities : [
                 {
-                    name: "Ligue ebTV Saison 3",
+                    name: "Ligue ebTV Saison 4",
                     state: "/help",
                     type: 5,
                     url: "https://www.youtube.com/@eSportBrosTV"
                 }
             ]
-        })*/
+        })
 
     } catch (error){
         console.error('Error updating bot name and avatar:', error);
