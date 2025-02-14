@@ -1,6 +1,6 @@
 module.exports = [
-    "Defense de zone",
-    "Expedition Risqué",
+    "Défense de zone",
+    "Expédition Risquée",
     "Mission Bazookarpe",
-    "Pluie de palourde"
+    "Pluie de palourdes"
 ]
