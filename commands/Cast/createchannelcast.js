@@ -29,6 +29,14 @@ module.exports.execute = async (interaction) => {
             throw new Error("Échec lors de la récupération des données du caster pour les autorisations du salon.")
         }
 
+        const stream = interaction.options.getString("lien_stream")
+
+        const urlPattern = new RegExp(/^https:\/\/(www\.)?(youtube\.com|twitch\.tv)\/(.+?)+$/) //Check for a youtube or twitch url
+        if (!urlPattern.test(stream)) {
+            await interaction.editReply({ content: `L'url donné n'est pas d'une chaîne Youtube ou Twitch.`})
+            return;
+        }
+
         const coCaster = interaction.options.getUser("co_caster");
         let memberCoCaster;
 
@@ -66,11 +74,11 @@ module.exports.execute = async (interaction) => {
         //const matchData = await fetchUniqueMatch(teamRoles.team1.name, teamRoles.team2.name);
 
         //if ((!matchData || matchData.length == 0) || matchData[0].scheduled_datetime == null) {
-            //throw new Error('Aucun match planifié correspondant n\'a été trouvé.');
+        //throw new Error('Aucun match planifié correspondant n\'a été trouvé.');
         //}
 
         //if (!matchData[0].opponents || matchData[0].opponents.length === 0) {
-            //throw new Error('Aucun adversaire trouvé pour le match sélectionné.');
+        //throw new Error('Aucun adversaire trouvé pour le match sélectionné.');
         //}
 
         //const opponent1Name = matchData[0].opponents[0]?.participant?.name;
@@ -78,8 +86,8 @@ module.exports.execute = async (interaction) => {
 
         //Check if name of both teams correspond to the fetched match
         //if (!(teamRoles.team1.name === opponent1Name || teamRoles.team1.name === opponent2Name) ||
-            //!(teamRoles.team2.name === opponent1Name || teamRoles.team2.name === opponent2Name)) {
-            //throw new Error('Aucun match planifié a été trouvée pour ces deux équipes.');
+        //!(teamRoles.team2.name === opponent1Name || teamRoles.team2.name === opponent2Name)) {
+        //throw new Error('Aucun match planifié a été trouvée pour ces deux équipes.');
         //}
 
         //const divisionName = await fetchUniqueGroup(matchData[0]?.group_id);
@@ -109,8 +117,8 @@ module.exports.execute = async (interaction) => {
 
         //Set the stream url of the caster to the match
         //if (STREAM_IDS[member.id] !== undefined) {
-            //await setStreamMatch(matchData[0].id, STREAM_IDS[member.id])
-            //await streamManager.setStreamUrl(member.id)
+        //await setStreamMatch(matchData[0].id, STREAM_IDS[member.id])
+        //await streamManager.setStreamUrl(member.id)
         //}
 
         const permissionOverwrites = [
@@ -158,10 +166,14 @@ module.exports.execute = async (interaction) => {
         //let dateCast = new Date(matchData[0].scheduled_datetime)
         // Votre match est prévu pour le <t:${Math.floor(dateCast / 1000)}:f>
 
+        let annonceMessage = `## Un nouveau cast se prepare ! :tv:\nLe match **${teamRoles.team1.name} vs ${teamRoles.team2.name}** sera cast par ${memberCoCaster ? `<@${member.id}> et <@${memberCoCaster.id}>` : `<@${member.id}>`} !\nIl sera a suivre en direct juste ici : ${stream}\n\n<@&${process.env.ANNONCE_CAST_ROLE}>`
+
+        await interaction.client.channels.cache.get(process.env.ANNONCE_CAST_ID).send(annonceMessage)
+
         const castChannel = await createCastChannel(guild, castCategory, `${teamRoles.team1.name}-${teamRoles.team2.name}-cast`, permissionOverwrites);
         const castPreparation = `
 📣  Cast de votre match 📺 \n <@&${teamRoles.team1.id}> <@&${teamRoles.team2.id}> \n
-Le match sera cast par ${memberCoCaster ? `<@${member.id}> et <@${memberCoCaster.id}>` : `<@${member.id}>`} \n
+Le match sera cast par ${memberCoCaster ? `<@${member.id}> et <@${memberCoCaster.id}>` : `<@${member.id}>`} ${stream}\n
 Pour bien préparer le cast, merci d’indiquer :\n
 \u2022 Les pronoms des membres de vos équipes
 \u2022 S’il va y avoir des changements entre les manches
@@ -178,7 +190,6 @@ L'odre des modes est le suivant :\n- ${emoteModeIndex[modes.mUn]} ${modeIndex[mo
             await msg.pin();
         }
 
-
         let repEmbed = new EmbedBuilder()
             .setTitle("Salon de cast créé")
             .setDescription(`Le salon de cast pour le match ${team1Role.name} contre ${team2Role.name} à été crée !`)
@@ -191,9 +202,9 @@ L'odre des modes est le suivant :\n- ${emoteModeIndex[modes.mUn]} ${modeIndex[mo
                     inline: true
                 }//,
                 //{
-                  //  name: "Date du cast",
-                    //value: `<t:${Math.floor(dateCast / 1000)}:f>`,
-                    //inline: true
+                //  name: "Date du cast",
+                //value: `<t:${Math.floor(dateCast / 1000)}:f>`,
+                //inline: true
                 //}
             ])
             .setFooter({
@@ -205,7 +216,7 @@ L'odre des modes est le suivant :\n- ${emoteModeIndex[modes.mUn]} ${modeIndex[mo
             })
             .setTimestamp()
 
-        if(memberCoCaster) {
+        if (memberCoCaster) {
             repEmbed.addFields([{
                 name: "Co caster",
                 value: `<@${memberCoCaster.user.id}>`,
@@ -248,6 +259,10 @@ module.exports.dataSlash = new SlashCommandBuilder()
     .addRoleOption(option =>
         option.setName("équipe2_cast")
             .setDescription("Nom de la seconde équipe à être cast")
+            .setRequired(true))
+    .addStringOption(option =>
+        option.setName("lien_stream")
+            .setDescription("Le lien du stream du cast")
             .setRequired(true))
     .addUserOption(option =>
         option.setName("co_caster")
