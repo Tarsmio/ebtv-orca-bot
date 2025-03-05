@@ -11,7 +11,7 @@ const streamManager = require("../../utils/streamManager")
 const STREAM_IDS = require("../../data/streamer_ids.json");
 const { STAFF_EBTV, TO, CASTER_INDE } = require('../../utils/roleEnum');
 const { parseAndFormatDate } = require('../../utils/planification/date');
-const { mapDB } = require('../../db');
+const { mapDB, caster } = require('../../db');
 const modeIndex = require('../../utils/modeIndex');
 const emoteModeIndex = require('../../utils/emoteModeIndex');
 
@@ -166,11 +166,17 @@ module.exports.execute = async (interaction) => {
         //let dateCast = new Date(matchData[0].scheduled_datetime)
         // Votre match est prévu pour le <t:${Math.floor(dateCast / 1000)}:f>
 
-        let annonceMessage = `## Un nouveau cast se prepare ! :tv:\nLe match **${teamRoles.team1.name} vs ${teamRoles.team2.name}** sera cast par ${memberCoCaster ? `<@${member.id}> et <@${memberCoCaster.id}>` : `<@${member.id}>`} !\nIl sera a suivre en direct juste ici : ${stream}\n\n<@&${process.env.ANNONCE_CAST_ROLE}>`
+        
 
-        await interaction.client.channels.cache.get(process.env.ANNONCE_CAST_ID).send(annonceMessage)
 
         const castChannel = await createCastChannel(guild, castCategory, `${teamRoles.team1.name}-${teamRoles.team2.name}-cast`, permissionOverwrites);
+
+        if(!await caster.cast.addCast(castChannel.id, member.id, memberCoCaster ? memberCoCaster.id : null, teamRoles.team1.name, teamRoles.team2.name, stream)){
+            await castChannel.delete()
+
+            return interaction.editReply("Une erreur est survenu dans l'enregistrement du cast dans la base de données")
+        }
+
         const castPreparation = `
 📣  Cast de votre match 📺 \n <@&${teamRoles.team1.id}> <@&${teamRoles.team2.id}> \n
 Le match sera cast par ${memberCoCaster ? `<@${member.id}> et <@${memberCoCaster.id}>` : `<@${member.id}>`} ${stream}\n

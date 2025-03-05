@@ -1,3 +1,4 @@
 module.exports = {
-    mapDB : require("./map/map")
+    mapDB : require("./map/map"),
+    caster : require("./caster/caster")
 }

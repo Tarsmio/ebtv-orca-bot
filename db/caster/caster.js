@@ -2,6 +2,7 @@ const db = require("../mysqlDB")
 
 module.exports = {
     chaine: require("./chaine"),
+    cast: require("./castAnnonce"),
     addCaster: async (discord_id) => {
         return new Promise(async (resolve, reject) => {
             const request = `INSERT INTO Caster (id_discord) VALUES ('${discord_id}')`
