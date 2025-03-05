@@ -6,18 +6,15 @@ const { STAFF_EBTV } = require('../../utils/roleEnum');
 const { getMatchsOfRounds } = require('../../utils/matchUtils');
 
 const stageIds = [
-    "8264675124462264320",
-    "8264737497420021760",
-    "8264738600411373568",
-    "8264739402440654848",
-    "8264740916637990912",
-    "8264741890458460160",
-    "8264742868431765504",
-    "8264743548782149632",
-    "8264744252364947456",
-    "8264744933675859968",
-    "8264745766931554304",
-    "8279666790566993920"
+    "8649924472267644928",
+    "8649925545948495872",
+    "8649926833616150528",
+    "8649929652070940672",
+    "8649931244893724672",
+    "8649931899172388864",
+    "8649932720540041216",
+    "8649933368575942656",
+    "8649934028256092160"
 ]
 
 const tagEmoteRoundIndex = [
@@ -45,8 +42,7 @@ const lienStatIndex = [
     "https://docs.google.com/spreadsheets/d/1XV3ngUzs-T4yn4eFyqcd_DiBX1UnfRtBxyHZXA3hDdg/",
     "https://docs.google.com/spreadsheets/d/1H_IAGWrSqtKwMeaRSXGHvZhbMsu7fLkdAmoOqXWTFqs/",
     "https://docs.google.com/spreadsheets/d/1RDzNir9Gkh98kbk7yokqlwM6zNnBkM6-DSsRPQ8OUFs/",
-    "https://docs.google.com/spreadsheets/d/1RPGsg9lTGnHFi5UO0vmHT36B7wyztaI8mDnCbx_7-uk/",
-    "https://docs.google.com/spreadsheets/d/1D1qSr8A6c3dt3FNkMgsY6Rmtnv4Vbyd66ZPhssB9DeA/",
+    "https://docs.google.com/spreadsheets/d/1RPGsg9lTGnHFi5UO0vmHT36B7wyztaI8mDnCbx_7-uk/"
 ]
 
 var statChannels = []
@@ -173,23 +169,23 @@ module.exports.execute = async (interaction) => {
                 taglist.push({
                     name: "A faire",
                     emoji: {
-                        name:"🟥"
+                        name: "🟥"
                     }
                 })
 
                 taglist.push({
                     name: "Terminé",
                     emoji: {
-                        name:"🟩"
+                        name: "🟩"
                     }
                 })
 
-                for (let k = 0; k < roundOfDivIds.length; k++){
+                for (let k = 0; k < roundOfDivIds.length; k++) {
                     taglist.push({
-                        name: `Semaine ${k+1}`,
+                        name: `Semaine ${k + 1}`,
                         moderated: true,
                         emoji: {
-                            name : tagEmoteRoundIndex[k+1]
+                            name: tagEmoteRoundIndex[k + 1]
                         }
                     })
                 }
@@ -198,9 +194,9 @@ module.exports.execute = async (interaction) => {
 
                 let toDoTag = actChannel.availableTags.find(tag => tag.name == "A faire")
 
-                for(let l = 0; l < roundOfDivIds.length; l++){
+                for (let l = 0; l < roundOfDivIds.length; l++) {
                     let matches = await getMatchsOfRounds(roundOfDivIds[l])
-                    let roudTag = actChannel.availableTags.find(tag => tag.name == `Semaine ${l+1}`)
+                    let roudTag = actChannel.availableTags.find(tag => tag.name == `Semaine ${l + 1}`)
 
                     matches.forEach(async match => {
 

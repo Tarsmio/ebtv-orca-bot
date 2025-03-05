@@ -4,25 +4,25 @@ const { embedBuilder } = require("../../utils/embedBuilder");
 const { STAFF_EBTV } = require('../../utils/roleEnum');
 const { EmbedBuilder } = require('discord.js');
 
-function setReply(interaction, channel, role){
+function setReply(interaction, channel, role) {
     let repEmbed = new EmbedBuilder()
         .setTitle("Attribution des permissions ...")
         .setDescription("L'attribution des permissions est en cours !")
         .setColor("f08300")
         .addFields([
             {
-                name : "Channel actuel",
-                value : channel.name,
-                inline : true
+                name: "Channel actuel",
+                value: channel.name,
+                inline: true
             },
             {
-                name : "Role actuel",
-                value : role.name
+                name: "Role actuel",
+                value: role.name
             }
         ])
 
     interaction.editReply({
-        embeds : [repEmbed]
+        embeds: [repEmbed]
     })
 }
 
@@ -33,18 +33,15 @@ module.exports.execute = async (interaction) => {
         const guild = interaction.guild;
 
         const stageIds = [
-            "8264675124462264320",
-            "8264737497420021760",
-            "8264738600411373568",
-            "8264739402440654848",
-            "8264740916637990912",
-            "8264741890458460160",
-            "8264742868431765504",
-            "8264743548782149632",
-            "8264744252364947456",
-            "8264744933675859968",
-            "8264745766931554304",
-            "8279666790566993920"
+            "8649924472267644928",
+            "8649925545948495872",
+            "8649926833616150528",
+            "8649929652070940672",
+            "8649931244893724672",
+            "8649931899172388864",
+            "8649932720540041216",
+            "8649933368575942656",
+            "8649934028256092160"
         ]
 
         const targetPattern = /^Division \d+$/;
@@ -131,7 +128,7 @@ module.exports.execute = async (interaction) => {
             const channelsInCategory = category.children.cache;
 
             for (const [channelId, channel] of channelsInCategory) {
-                
+
                 if (channel.name == `division-${divNumber}`) {
                     const divisionTeams = allTeamsByStage[`Division ${incrementIndex + 1}`];
                     const divisionRoleID = divisionTeams.map((teamName) => getRoleIdByName(teamName));
@@ -154,7 +151,7 @@ module.exports.execute = async (interaction) => {
                     const divisionRoleID = divisionTeams.map((teamName) => getRoleIdByName(teamName));
 
                     const filteredDivisionRoleId = divisionRoleID.filter(id => id != null)
-                    setReply(interaction, channel, {name: "Cap ligue"})
+                    setReply(interaction, channel, { name: "Cap ligue" })
 
                     await channel.permissionOverwrites.edit(process.env.ROLE_ID_CAPITAINE, {
                         SendMessages: true,
@@ -195,7 +192,7 @@ module.exports.execute = async (interaction) => {
                     const divisionRoleID = divisionTeams.map((teamName) => getRoleIdByName(teamName));
 
                     const filteredDivisionRoleId = divisionRoleID.filter(id => id != null)
-                    setReply(interaction, channel, {name: "Cap ligue"})
+                    setReply(interaction, channel, { name: "Cap ligue" })
 
                     await channel.permissionOverwrites.edit(process.env.ROLE_ID_CAPITAINE, {
                         SendMessages: true,
@@ -244,9 +241,9 @@ module.exports.execute = async (interaction) => {
         interaction.editReply({
             content: "",
             embeds: [endEmbed],
-            files : [{
-                name : "check-tic.png",
-                attachment : "./images/check-tic.png"
+            files: [{
+                name: "check-tic.png",
+                attachment: "./images/check-tic.png"
             }]
         })
     } catch (error) {
