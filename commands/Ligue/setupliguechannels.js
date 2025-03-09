@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { ChannelType, PermissionsBitField, ForumChannel, Guild, PermissionFlagsBits } = require('discord.js');
+const { ChannelType, PermissionsBitField, ForumChannel, Guild, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const { getNbStage, getRoundIdsOf } = require('../../utils/toornamentUtils');
 const { embedBuilder } = require("../../utils/embedBuilder");
 const { STAFF_EBTV } = require('../../utils/roleEnum');
@@ -32,22 +32,66 @@ const tagEmoteRoundIndex = [
 ]
 
 const lienStatIndex = [
-    "https://docs.google.com/spreadsheets/d/1L-lpAAhnED8gc_K2ddz3fooTXoa7-jcyyGFXqWkG8Ek/",
-    "https://docs.google.com/spreadsheets/d/1U-0KfsSnoK7WO94BFV62iGAjpnMADCNtqPeoIvGcqyg/",
-    "https://docs.google.com/spreadsheets/d/1v1E5J58r9wE_wGco3fu-FDDfqBG8nFdbRwf-AiesHro/",
-    "https://docs.google.com/spreadsheets/d/1hLYuf6uFSxwk1tdTSYct2luhmaHpgc6sVbtnxzbpshE/",
-    "https://docs.google.com/spreadsheets/d/1qV5GPmK3kmpRNybLsbosn7RWL7JebWsnyfuI3fadDxM/",
-    "https://docs.google.com/spreadsheets/d/1BxlKGGW8L-81N5qV1ATuNdwlkOQ_lcLS8LUG3oqQnPs/",
-    "https://docs.google.com/spreadsheets/d/1_UKIht-OaQI2ZN8mtk_fZIJbCFfpl8Uc2XNw2SkUJW4/",
-    "https://docs.google.com/spreadsheets/d/1XV3ngUzs-T4yn4eFyqcd_DiBX1UnfRtBxyHZXA3hDdg/",
-    "https://docs.google.com/spreadsheets/d/1H_IAGWrSqtKwMeaRSXGHvZhbMsu7fLkdAmoOqXWTFqs/",
-    "https://docs.google.com/spreadsheets/d/1RDzNir9Gkh98kbk7yokqlwM6zNnBkM6-DSsRPQ8OUFs/",
-    "https://docs.google.com/spreadsheets/d/1RPGsg9lTGnHFi5UO0vmHT36B7wyztaI8mDnCbx_7-uk/"
+    "https://bit.ly/EBTV-SP3-S4-STATSD1",
+    "https://bit.ly/EBTV-SP3-S4-STATSD2",
+    "https://bit.ly/EBTV-SP3-S4-STATSD3",
+    "https://bit.ly/EBTV-SP3-S4-STATSD4",
+    "https://bit.ly/EBTV-SP3-S4-STATSD5",
+    "https://bit.ly/EBTV-SP3-S4-STATSD6",
+    "https://bit.ly/EBTV-SP3-S4-STATSD7",
+    "https://bit.ly/EBTV-SP3-S4-STATSD8",
+    "https://bit.ly/EBTV-SP3-S4-STATSD9"
 ]
 
 var statChannels = []
 
+function setReply(interaction, division, channelName) {
+    let repEmbed = new EmbedBuilder()
+        .setTitle("Création des divisions")
+        .setDescription("La création des divisions est en cours ...")
+        .setColor("f08300")
+        .addFields([
+            {
+                name: "Division actuel",
+                value: division,
+                inline: true
+            },
+            {
+                name: "Channel actuel",
+                value: channelName,
+                inline: true
+            }
+        ])
+
+    interaction.editReply({
+        embeds: [repEmbed]
+    })
+}
+
+function setReplyForum(interaction, forum, match) {
+    let repEmbed = new EmbedBuilder()
+        .setTitle("Création des divisions")
+        .setDescription("Remplissage des forum de stat ...\n*Une attente de 1min30 entre chaque forum est necessaire*")
+        .setColor("f08300")
+        .addFields([
+            {
+                name: "Forum actuel",
+                value: forum,
+                inline: true
+            },
+            {
+                name: "Match actuel",
+                value: match,
+            }
+        ])
+
+    interaction.editReply({
+        embeds: [repEmbed]
+    })
+}
+
 module.exports.execute = async (interaction) => {
+    await interaction.deferReply()
     try {
         // Get the guild from the interaction
         const guild = interaction.guild;
@@ -55,9 +99,10 @@ module.exports.execute = async (interaction) => {
 
         const nbDivToCreate = await getNbStage();
 
-        interaction.reply({ content: "Les divisions sont en cours de création, vérifiez bien que toutes les divisions sont créer. Ne pas oublier d'autoriser la permission pour modifier les permissions des utilisateurs d'un salon (Manage Permissions) dans les catégories des divisions avant d'utiliser la commande /permissiondivisionligue. (L'éxecution de cette commande prend enormement de temps)" })
+        //interaction.reply({ content: "Les divisions sont en cours de création, vérifiez bien que toutes les divisions sont créer. Ne pas oublier d'autoriser la permission pour modifier les permissions des utilisateurs d'un salon (Manage Permissions) dans les catégories des divisions avant d'utiliser la commande /permissiondivisionligue. (L'éxecution de cette commande prend enormement de temps)" })
 
         for (let i = 1; i < nbDivToCreate + 1; i++) {
+            setReply(interaction, `Division ${i}`, "Categorie")
             const roleStat = await guild.roles.create({
                 name: `Stat D${i}`,
             })
@@ -85,36 +130,43 @@ module.exports.execute = async (interaction) => {
                 ]
             });
 
+            setReply(interaction, `Division ${i}`, `division-${i}`)
             await guild.channels.create({
                 name: `division-${i}`,
                 parent: category.id,
                 type: ChannelType.GuildText,
             });
 
+            setReply(interaction, `Division ${i}`, `div-${i}-planif`)
             await guild.channels.create({
                 name: `div-${i}-planif`,
                 parent: category.id,
                 type: ChannelType.GuildText,
             });
 
+
+            setReply(interaction, `Division ${i}`, `div-${i}-support`)
             await guild.channels.create({
                 name: `div-${i}-support`,
                 parent: category.id,
                 type: ChannelType.GuildText,
             });
 
+            setReply(interaction, `Division ${i}`, `div-${i}-récaps-manches`)
             await guild.channels.create({
                 name: `div-${i}-récaps-manches`,
                 parent: category.id,
                 type: ChannelType.GuildText,
             });
 
+            setReply(interaction, `Division ${i}`, `div-${i}-discussion`)
             await guild.channels.create({
                 name: `div-${i}-discussion`,
                 parent: category.id,
                 type: ChannelType.GuildText,
             });
 
+            setReply(interaction, `Division ${i}`, `div-${i}-stats`)
             let statChannel = await guild.channels.create({
                 name: `div-${i}-stats`,
                 parent: category.id,
@@ -198,7 +250,12 @@ module.exports.execute = async (interaction) => {
                     let matches = await getMatchsOfRounds(roundOfDivIds[l])
                     let roudTag = actChannel.availableTags.find(tag => tag.name == `Semaine ${l + 1}`)
 
+                    let test = []
+
+
+
                     matches.forEach(async match => {
+                        setReplyForum(interaction, actChannel.name, `${match.opponents[0].participant.name} - ${match.opponents[1].participant.name}`)
 
                         await actChannel.threads.create({
                             name: `${match.opponents[0].participant.name} contre ${match.opponents[1].participant.name}`,
@@ -207,7 +264,27 @@ module.exports.execute = async (interaction) => {
                             },
                             appliedTags: [roudTag.id, toDoTag.id]
                         })
+
+                        if ((j == nbDivToCreate - 1) && (l == roundOfDivIds.length - 1) && match.id == matches[matches.length - 1].id) {
+                            let endEmbed = new EmbedBuilder()
+                                .setTitle("Les divisions sont crée !")
+                                .setDescription("Les salon sont prêt ! Il faut encors donner les perms")
+                                .setThumbnail("attachment://check-tic.png")
+                                .setColor("#55ff33")
+
+                            interaction.editReply({
+                                content: "",
+                                embeds: [endEmbed],
+                                files: [{
+                                    name: "check-tic.png",
+                                    attachment: "./images/check-tic.png"
+                                }]
+                            })
+                        }
                     })
+
+
+
                 }
             }, 90000 * j)
         }

@@ -2,6 +2,18 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { checkUserPermissions } = require("../../utils/logging/logger");
 const { ADMIN, TO, STAFF_EBTV } = require('../../utils/roleEnum');
 
+function removeSpecials(str) {
+    var lower = str.toLowerCase();
+    var upper = str.toUpperCase();
+
+    var res = "";
+    for(var i=0; i<lower.length; ++i) {
+        if(lower[i] != upper[i] || lower[i].trim() === '')
+            res += str[i];
+    }
+    return res;
+}
+
 module.exports.execute = async (interaction) => {
     try {
         await interaction.deferReply();

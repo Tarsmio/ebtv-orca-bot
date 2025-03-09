@@ -3,6 +3,7 @@ const { readyLog } = require('../../utils/logs');
 const { loadCommandIds } = require('../../utils/loaders');
 const { url } = require('node:inspector');
 const { deploySlashCommands, deployPrivateSlashCommands } = require('../../utils/slashDeployer');
+const { getParticipants } = require('../../utils/toornamentUtils');
 
 module.exports = async (client) => {
     try{
@@ -43,7 +44,6 @@ module.exports = async (client) => {
     await deploySlashCommands(client)
     await deployPrivateSlashCommands(client)
 
-    client.commandIds = await loadCommandIds(client)
 
     console.log(`Ready! Logged in as ${client.user.tag}`);
 
