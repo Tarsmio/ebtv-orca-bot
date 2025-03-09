@@ -196,7 +196,6 @@ module.exports.execute = async (interaction) => {
 
                     await channel.permissionOverwrites.edit(process.env.ROLE_ID_CAPITAINE, {
                         SendMessages: true,
-                        ViewChannel: true,
                         AttachFiles: true
                     })
 
