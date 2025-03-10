@@ -140,7 +140,7 @@ module.exports.execute = async (interaction) => {
             },
             {
                 id: member,
-                allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
+                allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.UseApplicationCommands],
             },
             {
                 id: process.env.BOT_ROLE_ID,
@@ -151,7 +151,7 @@ module.exports.execute = async (interaction) => {
         if (memberCoCaster !== null) {
             permissionOverwrites.push({
                 id: memberCoCaster,
-                allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
+                allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.UseApplicationCommands],
             });
         }
 
