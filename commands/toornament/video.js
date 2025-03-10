@@ -8,7 +8,6 @@ module.exports.execute = async (interaction) => {
     try {
         await interaction.deferReply();
 
-        const titre = interaction.options.getString('titre');
         const url = interaction.options.getString('url');
 
         const urlPattern = new RegExp(/^https:\/\/(www\.)?(youtube\.com)\/(.+?)+$/) //Check for a youtube url

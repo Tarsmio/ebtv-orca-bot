@@ -31,7 +31,7 @@ module.exports.info = {
     userPersmission: [],
     helpReportType: 1,
     category : "cast",
-    active: true,
+    active: false,
     isPublic: true
 }
 
