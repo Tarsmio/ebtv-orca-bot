@@ -189,7 +189,7 @@ L'odre des modes est le suivant :\n- ${emoteModeIndex[modes.mUn]} ${modeIndex[mo
         // await castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, matchData, castPreparation);
 
         if (pinPickAndBan) {
-            const msg = await castChannel.send({ files: ['images/s17_pick_ban.png'] });
+            const msg = await castChannel.send({ files: ['images/s17_pick_ban_1.png'] });
             await msg.pin();
         }
 
