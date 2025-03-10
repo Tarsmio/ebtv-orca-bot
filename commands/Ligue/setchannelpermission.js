@@ -154,8 +154,7 @@ module.exports.execute = async (interaction) => {
                     setReply(interaction, channel, { name: "Cap ligue" })
 
                     await channel.permissionOverwrites.edit(process.env.ROLE_ID_CAPITAINE, {
-                        SendMessages: true,
-                        ViewChannel: true
+                        SendMessages: true
                     })
 
                     for (const roleId of filteredDivisionRoleId) {
