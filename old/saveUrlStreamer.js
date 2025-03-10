@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-const { checkUserPermissions } = require("../../utils/logging/logger");
-const { setStreamUrl } = require("../../utils/toornamentUtils");
-const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
+const { checkUserPermissions } = require("../utils/logging/logger");
+const { setStreamUrl } = require("../utils/toornamentUtils");
+const { STAFF_EBTV, TO } = require('../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
     try {
