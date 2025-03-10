@@ -15,7 +15,7 @@ module.exports.execute = async (interaction) => {
 
     await interaction.client.channels.cache.get(process.env.ANNONCE_CAST_ID).send(annonceMessage)
 
-    await interaction.reply("Annonce effectuer !")
+    await interaction.reply("Annonce effectué !")
 
 }
 
