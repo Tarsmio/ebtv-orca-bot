@@ -36,6 +36,17 @@ function checkDivPickBan(divisionName){
     }
 }
 
+function checkDivKing(divisionName){
+    const parts = divisionName.split(" ")
+    const divNumber = parseInt(parts[1]);
+
+    if(!isNaN(divNumber) && divNumber <= 2){
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function checkCastTime(dateString){
     const providedDate = new Date(dateString);
     const today = new Date();
@@ -84,5 +95,6 @@ module.exports = {
     getDayOfWeekWithDate,
     checkDivPickBan,
     checkCastTime,
-    randomInt
+    randomInt,
+    checkDivKing
 }

@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { PermissionsBitField, EmbedBuilder } = require('discord.js');
 const { checkUserPermissions } = require("../../utils/logging/logger");
-const { formatingString, checkDivPickBan } = require("../../utils/utilityTools");
+const { formatingString, checkDivPickBan, checkDivKing } = require("../../utils/utilityTools");
 const { fetchUniqueMatch } = require("../../utils/matchUtils");
 const { fetchUniqueGroup } = require('../../utils/groupUtils');
 const { getCategoryCastMatch, checkExistingChannels, createCastChannel, castAnnouncement } = require('../../utils/castChannel/castChannelUtils');
@@ -194,6 +194,15 @@ Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !`;
         if (pinPickAndBan) {
             const msg = await castChannel.send({ files: ['images/s17_pick_ban_1.jpg'] });
             await msg.pin();
+        }
+
+        if(checkDivKing(castCategory.name)){
+            let team1Image = `images/stages/saison-4/${teamRoles.team1.name}.png`
+            let team2Image = `images/stages/saison-4/${teamRoles.team2.name}.png`
+
+            let msgMap = await castChannel.send({ files: [team1Image, team2Image] });
+
+            await msgMap.pin()
         }
 
         let repEmbed = new EmbedBuilder()
