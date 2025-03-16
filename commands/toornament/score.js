@@ -2,6 +2,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { findMatch, setResult, fetchUniqueMatch } = require("../../utils/matchUtils");
 const { checkUserPermissions } = require("../../utils/logging/logger");
 const { STAFF_EBTV, TO } = require('../../utils/roleEnum');
+const { getCategoryCastMatch } = require('../../utils/castChannel/castChannelUtils');
+const { fetchUniqueGroup } = require('../../utils/groupUtils');
 
 module.exports.execute = async (interaction) => {
     await interaction.deferReply();
@@ -29,34 +31,53 @@ module.exports.execute = async (interaction) => {
         interaction.options.getRole("équipe2").name
     );
 
-    if(match == null){
+    if (match == null) {
         return interaction.editReply({
-            content : "Match introuvable !"
+            content: "Match introuvable !"
         })
     }
 
     let scoreFinal = await setResult(score, match[0].id, team1, match[0].opponents[0].participant, match[0].opponents[1].participant)
 
-    if (scoreFinal != null){
-        if(interaction.user.id == "362246536286961665"){
+    if (scoreFinal != null) {
+        const divisionName = await fetchUniqueGroup(match[0]?.group_id);
+
+        const divisionPattern = divisionName.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+        const divCat = await getCategoryCastMatch(interaction.guild, divisionPattern);
+
+        const divNumber = parseInt(divCat.name.split(" ")[1])
+
+        let statDivRole = interaction.guild.roles.cache.find(r => r.name == `Stat D${divNumber.toString()}`)
+
+        let forumPattern = /^div-[0-9]{1,2}-stats$/
+
+        let statChannel = divCat.children.cache.find(c => forumPattern.test(c.name))
+
+        let statMatchChannel = statChannel.threads.cache.find(t => t.name == `${team1} contre ${team2}` || t.name == `${team2} contre ${team1}`)
+
+        await statMatchChannel.send(`Le match est terminé ! Vous pouvez report les stats <@&${statDivRole.id}>`)
+        if (interaction.user.id == "362246536286961665") {
             return await interaction.editReply({
                 content: `Mon tres cher Gaby t'as de la chance que je sois obliger de repondre a ta demande ||:middle_finger:||`
             })
         } else {
             return await interaction.editReply({
-                content:`**${team1}** ${score} ${team2}`
+                content: `**${team1}** ${score} ${team2}`
             })
         }
     }
+
+
 }
 
 module.exports.info = {
     name: "score",
-    description: 'Mettre le score d\'un match un match !',
+    description: 'Mettre le score d\'un match !',
     rolePermission: [STAFF_EBTV, TO],
     userPersmission: [],
     helpReportType: 1,
-    category : "toornament",
+    category: "toornament",
     active: true,
     isPublic: true
 }
@@ -66,13 +87,13 @@ module.exports.dataSlash = new SlashCommandBuilder()
     .setDescription(this.info.description)
     .addRoleOption(option =>
         option.setName("équipe1")
-        .setDescription("Equipe1")
-        .setRequired(true))
+            .setDescription("Equipe1")
+            .setRequired(true))
     .addStringOption(option =>
         option.setName("score")
-        .setDescription("Score du match (ex: 4-0)")
-        .setRequired(true))
+            .setDescription("Score du match (ex: 4-0)")
+            .setRequired(true))
     .addRoleOption(option =>
         option.setName("équipe2")
-        .setDescription("Equipe2")
-        .setRequired(true))
+            .setDescription("Equipe2")
+            .setRequired(true))
