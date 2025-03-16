@@ -10,9 +10,9 @@ module.exports.execute = async (interaction) => {
 
         const url = interaction.options.getString('url');
 
-        const urlPattern = new RegExp(/^https:\/\/(www\.)?(youtube\.com)\/(.+?)+$/) //Check for a youtube url
+        const urlPattern = new RegExp(/^https:\/\/(www\.)?(youtube\.com)\/watch\?(.)+$/) //Check for a youtube url
         if (!urlPattern.test(interaction.options.getString('url'))) {
-            await interaction.editReply({ content: `L'url donné n'est pas d'une vidéo Youtube.`, ephemeral: false })
+            await interaction.editReply({ content: `L'url donné n'est pas d'une vidéo Youtube.\nLe format doit etre le suivant : \`https://youtube.com/watch...\``, ephemeral: false })
             return;
         }
 
