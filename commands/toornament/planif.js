@@ -52,7 +52,10 @@ module.exports.execute = async (interaction) => {
 
             let statMatchChannel = statChannel.threads.cache.find(t => t.name == `${team1} contre ${team2}` || t.name == `${team2} contre ${team1}`)
 
+            let castNextMatchChannel = await interaction.client.channels.fetch(process.env.NEXT_MATCH_CHANNEL)
+
             await statMatchChannel.send(`Le match est prevu pour le ${getDayOfWeekWithDate(formattedDate.substring(0, 10))} à ${formattedDate.substring(11, 16)}.`)
+            await castNextMatchChannel.send(`## Nouveau match planifié ! :calendar_spiral:\n**${team1}** contre **${team2}** est prévu pour le **${getDayOfWeekWithDate(formattedDate.substring(0, 10))} à ${formattedDate.substring(11, 16)}**`)
             if (isEster(interaction.channel.id)) {
                 return await interaction.editReply({
                     content: `Eh ben putain t'as bien pris ton temps à planif ducon hein ? Tout ça pour le planifier pour le ${getDayOfWeekWithDate(formattedDate.substring(0, 10))} à ${formattedDate.substring(11, 16)} ?! Non mais quelle plaie je te jure... Et t'as pensé au caster ? Non évidemment que non ! Peuchère...\n\nBisous`
