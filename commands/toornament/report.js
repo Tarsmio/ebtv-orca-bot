@@ -33,7 +33,7 @@ module.exports.execute = async (interaction) => {
 
     let statMatchChannel = statChannel.threads.cache.find(t => t.name == `${team1} contre ${team2}` || t.name == `${team2} contre ${team1}`)
 
-    await statMatchChannel.send(`Le match viens d'etre reporté il n'aura donc pas lieu la semaine indiqué`)
+    await statMatchChannel.send(`Le match vient d'être reporté, il n'aura donc pas lieu pendant la semaine indiquée`)
 }
 
 module.exports.info = {
