@@ -13,7 +13,6 @@ client.commands = new Collection();
 client.args = process.argv.slice(2)
 client.toornamentToken = ToornamentTokenGest.getInstance()
 
-
 loadCommands(client)
 loadEvents(client)
 
