@@ -2,9 +2,9 @@
   "name": "orca_ebtv",
   "version": "1.0.0",
   "description": "A bot which help the gestion of the ebtv league",
-  "main": "index.js",
+  "main": "orca.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node orca.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Laharl, Tarsmio",
