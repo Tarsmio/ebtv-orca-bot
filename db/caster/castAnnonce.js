@@ -3,7 +3,9 @@ const db = require("../mysqlDB")
 module.exports = {
     addCast: async (channelId, casterId, coCatserId, equipeA, equipeB, stream) => {
         return new Promise(async (resolve, reject) => {
-            const request = `INSERT INTO CastAnnonce (channel_id, caster_id, co_caster_id, equipe_a, equipe_b, stream) VALUES ('${channelId}', '${casterId}', '${coCatserId == null ? 'NULL' : coCatserId}', '${equipeA}', '${equipeB}', '${stream}')`
+
+
+            const request = `INSERT INTO CastAnnonce (channel_id, caster_id, co_caster_id, equipe_a, equipe_b, stream) VALUES ('${channelId}', '${casterId}', '${coCatserId == null ? 'NULL' : coCatserId}', "${equipeA}", "${equipeB}", '${stream}')`
 
             db.query(request, (err, result) => {
                 if(err) reject(err)
