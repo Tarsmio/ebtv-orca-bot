@@ -8,6 +8,8 @@ module.exports = {
             db.query(request, (err, result) => {
                 if(err) reject(err)
 
+                console.log(result)
+
                 if (result.constructor.name == "OkPacket") {
                     resolve(true);
                 } else {
