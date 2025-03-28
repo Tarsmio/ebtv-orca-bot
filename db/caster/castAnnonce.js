@@ -9,6 +9,7 @@ module.exports = {
                 if(err) reject(err)
 
                 console.log(result)
+                console.error(err)
 
                 if (result.constructor.name == "OkPacket") {
                     resolve(true);
