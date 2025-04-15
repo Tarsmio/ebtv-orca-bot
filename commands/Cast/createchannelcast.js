@@ -192,7 +192,7 @@ Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !`;
         await messageOrdre.pin()
 
         if (pinPickAndBan) {
-            const msg = await castChannel.send({ files: ['images/s17_pick_ban_1.jpg'] });
+            const msg = await castChannel.send({ files: ['images/s17_pick_ban_2.jpg'] });
             await msg.pin();
         }
 
