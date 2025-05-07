@@ -48,7 +48,7 @@ function formatTime(seconds) {
 
 module.exports.execute = async (interaction) => {
 
-    await interaction.deferReply({ flags: MessageFlags.Ephemeral })
+    await interaction.deferReply({ephemeral: true})
 
     let subC = interaction.options.getSubcommand()
 
@@ -131,7 +131,8 @@ module.exports.execute = async (interaction) => {
         }
 
         return await interaction.editReply({
-            embeds: [embedJoueur]
+            embeds: [embedJoueur],
+            ephemeral: true
         })
 
     } else if(subC == "equipe"){
@@ -218,7 +219,8 @@ module.exports.execute = async (interaction) => {
         }
 
         return await interaction.editReply({
-            embeds: [embedEquipe]
+            embeds: [embedEquipe],
+            ephemeral: true
         })
 
     } else {
