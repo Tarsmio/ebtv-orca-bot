@@ -236,7 +236,7 @@ module.exports.info = {
     userPersmission: [],
     helpReportType: 2,
     category: "stat",
-    active: true,
+    active: false,
     isPublic: true
 }
 
