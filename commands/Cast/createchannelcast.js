@@ -92,7 +92,7 @@ module.exports.execute = async (interaction) => {
 
         //const divisionName = await fetchUniqueGroup(matchData[0]?.group_id);
         //Regular expression which check for the category presaison name, regardless of emoji if they are any in the category name
-        const targetPattern = /Présaison S5/i;
+        const targetPattern = /🏆 LIGUE - PRE-SAISON 05 🏋️‍♀️/i;
 
         //Match any string that contain divisionPattern as a substring
         //const divisionPattern = divisionName.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
