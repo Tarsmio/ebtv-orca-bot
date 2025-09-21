@@ -107,7 +107,7 @@ module.exports.execute = async (interaction) => {
         }
 
         //const pinPickAndBan = checkDivPickBan(castCategory.name);
-        //const pinPickAndBan = true
+        const pinPickAndBan = true
 
         const channelCastExisting = await checkExistingChannels(castCategory, channelBaseNameFormated, channelBaseNameFormatedReverse)
 
@@ -155,7 +155,7 @@ module.exports.execute = async (interaction) => {
             });
         }
 
-        //modes = await mapDB.modeActuel.getModesActuel()
+        modes = await mapDB.modeActuel.getModesActuel()
 
 
 
@@ -185,15 +185,17 @@ Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !`;
 
         let messageCreation = await castChannel.send(`${castPreparation}`);
         // await castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, matchData, castPreparation);
-        await messageCreation.pin()
+        
+        let messageOrdre = await castChannel.send(`L'ordre des modes est le suivant :\n- ${emoteModeIndex[modes.mUn]} ${modeIndex[modes.mUn]}\n- ${emoteModeIndex[modes.mDeux]} ${modeIndex[modes.mDeux]}\n- ${emoteModeIndex[modes.mTrois]} ${modeIndex[modes.mTrois]}\n- ${emoteModeIndex[modes.mQuatre]} ${modeIndex[modes.mQuatre]}\n- ${emoteModeIndex[modes.mCinq]} ${modeIndex[modes.mCinq]}\n- ${emoteModeIndex[modes.mSix]} ${modeIndex[modes.mSix]}\n- ${emoteModeIndex[modes.mSept]} ${modeIndex[modes.mSept]}`)
+        
 
-        /*let messageOrdre = await castChannel.send(`L'ordre des modes est le suivant :\n- ${emoteModeIndex[modes.mUn]} ${modeIndex[modes.mUn]}\n- ${emoteModeIndex[modes.mDeux]} ${modeIndex[modes.mDeux]}\n- ${emoteModeIndex[modes.mTrois]} ${modeIndex[modes.mTrois]}\n- ${emoteModeIndex[modes.mQuatre]} ${modeIndex[modes.mQuatre]}\n- ${emoteModeIndex[modes.mCinq]} ${modeIndex[modes.mCinq]}\n- ${emoteModeIndex[modes.mSix]} ${modeIndex[modes.mSix]}\n- ${emoteModeIndex[modes.mSept]} ${modeIndex[modes.mSept]}`)
-        await messageOrdre.pin()*/
-
-        /*if (pinPickAndBan) {
-            const msg = await castChannel.send({ files: ['images/s17_pick_ban_2.jpg'] });
+        if (pinPickAndBan) {
+            const msg = await castChannel.send({ files: ['images/ps18_pick_ban.png'] });
             await msg.pin();
-        }*/
+        }
+
+        await messageOrdre.pin()
+        await messageCreation.pin()
 
         /*if(checkDivKing(castCategory.name)){
             let team1Image = `images/stages/saison-4/${teamRoles.team1.name}.png`
