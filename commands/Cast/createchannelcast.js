@@ -165,7 +165,7 @@ module.exports.execute = async (interaction) => {
 
 
 
-        const castChannel = await createCastChannel(guild, castCategory, `${teamRoles.team1.name}-${teamRoles.team2.name}-cast`, permissionOverwrites);
+        const castChannel = await createCastChannel(guild, castCategory, `📺${teamRoles.team1.name}-${teamRoles.team2.name}-cast`, permissionOverwrites);
 
         if (!await caster.cast.addCast(castChannel.id, member.id, memberCoCaster ? memberCoCaster.id : null, teamRoles.team1.name, teamRoles.team2.name, stream)) {
             await castChannel.delete()
@@ -180,7 +180,8 @@ Pour bien préparer le cast, merci d’indiquer :\n
 \u2022 Les pronoms des membres de vos équipes
 \u2022 S’il va y avoir des changements entre les manches
 \u2022 La prononciation du nom de l'équipe ou des pseudos si elle n’est pas simple \n
-Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !`;
+Merci également de rejoindre le lobby ingame avec un pseudo reconnaissable !\n
+Vous pouvez également déclarer votre line-up, qui pourrait être affichée pendant le cast, sur [Olympe](<https://splatoon-euro-leagues.olympelegends.com/>), dans **Gestion de l'équipe** > **Gérer mes matchs**`;
 
 
         let messageCreation = await castChannel.send(`${castPreparation}`);
