@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { checkUserPermissions } = require("../../utils/logging/logger");
-const { ADMIN, STAFF_EBTV } = require('../../utils/roleEnum');
+const { checkUserPermissions } = require("../utils/logging/logger");
+const { ADMIN, STAFF_EBTV } = require('../utils/roleEnum');
 
 module.exports.execute = async (interaction) => {
     try {

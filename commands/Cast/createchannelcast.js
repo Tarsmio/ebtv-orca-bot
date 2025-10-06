@@ -68,8 +68,8 @@ module.exports.execute = async (interaction) => {
             return;
         }
 
-        const channelBaseNameFormated = formatingString(`${teamRoles.team1.name}-${teamRoles.team2.name}-cast`);
-        const channelBaseNameFormatedReverse = formatingString(`${teamRoles.team2.name}-${teamRoles.team1.name}-cast`);
+        const channelBaseNameFormated = formatingString(`📺${teamRoles.team1.name}-${teamRoles.team2.name}-cast`);
+        const channelBaseNameFormatedReverse = formatingString(`📺${teamRoles.team2.name}-${teamRoles.team1.name}-cast`);
 
         /*const matchData = await fetchUniqueMatch(teamRoles.team1.name, teamRoles.team2.name);
 
@@ -92,7 +92,7 @@ module.exports.execute = async (interaction) => {
 
         //const divisionName = await fetchUniqueGroup(matchData[0]?.group_id);
         //Regular expression which check for the category presaison name, regardless of emoji if they are any in the category name
-        const targetPattern = /CAST📺/i;
+        const targetPattern = /📺CAST/i;
 
         //Match any string that contain divisionPattern as a substring
         //const divisionPattern = divisionName.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

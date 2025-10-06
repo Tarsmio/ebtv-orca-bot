@@ -10,8 +10,8 @@ module.exports.execute = async (interaction) => {
         const CHANNEL_CATEGORY_TYPE = 4;
 
         //Check for présaison or presaison pattern
-        const targetPatternChannelPre = /^présaison-*/i;
-        const targetPattern = /🏆 LIGUE - PRE-SAISON 05 🏋️‍♀️/i
+        const targetPatternChannel = /^📺.*-cast$/i;
+        const targetPattern = /📺CAST/i
 
         const preSaisonCategory = interaction.guild.channels.cache.filter(channel => channel.type === CHANNEL_CATEGORY_TYPE && targetPattern.test(channel.name)).first();
 
@@ -21,9 +21,9 @@ module.exports.execute = async (interaction) => {
 
         const presaisonChannels = preSaisonCategory.children.cache;
 
-        const channelsNotStartingWithPrésaison = presaisonChannels.filter(channel => !targetPatternChannelPre.test(channel.name));
+        const channelsToDelete = presaisonChannels.filter(channel => targetPatternChannel.test(channel.name));
 
-        const channelNamesToDeleteString = channelsNotStartingWithPrésaison.map(channel => `- ${channel.name}`).join('\n');
+        const channelNamesToDeleteString = channelsToDelete.map(channel => `- ${channel.name}`).join('\n');
 
         if (channelNamesToDeleteString.length === 0) {
             return await interaction.editReply({ content: `Aucun salon de cast de présaison à supprimer.`, ephemeral: false });
@@ -54,10 +54,10 @@ module.exports.execute = async (interaction) => {
             const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: MINUTE_IN_MILLISECONDS });
 
             if (confirmation.customId === 'confirm') {
-                channelsNotStartingWithPrésaison.forEach(channel => {
+                channelsToDelete.forEach(channel => {
                     channel.delete();
                 })
-                await confirmation.update({ content: "Les salons de cast de présaison ont bien été supprimé.", components: [] });
+                await confirmation.update({ content: "Les salons de cast ont bien été supprimé.", components: [] });
             } else if (confirmation.customId === 'cancel') {
                 await confirmation.update({ content: "Action annulé", components: [] });
             }
@@ -71,8 +71,8 @@ module.exports.execute = async (interaction) => {
 }
 
 module.exports.info = {
-    name: "cleancastpresaison",
-    description: 'Nettoyer les salons de cast de la présaison.',
+    name: "cleancast",
+    description: 'Nettoyer les salons de cast',
     rolePermission: [ADMIN, TO, STAFF_EBTV],
     userPersmission: [],
     helpReportType: 1,
