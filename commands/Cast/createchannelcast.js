@@ -15,6 +15,22 @@ const { mapDB, caster } = require('../../db');
 const modeIndex = require('../../utils/modeIndex');
 const emoteModeIndex = require('../../utils/emoteModeIndex');
 
+const kingFormatTeams = [
+    "Amnesia",
+    "DEVIANT",
+    "ÉCLIPSE",
+    "Frans",
+    "GrisGris",
+    "Ink Souls Maria",
+    "Paris Saint-Glufus",
+    "Black wave",
+    "Hino",
+    "Hutora",
+    "Les Télétubbies",
+    "Pastabox",
+    "Witch Of The Night"
+]
+
 module.exports.execute = async (interaction) => {
     try {
         await interaction.deferReply();
@@ -188,24 +204,21 @@ Vous pouvez également déclarer votre line-up, qui pourrait être affichée pen
         // await castAnnouncement(castChannel, teamRoles, member, coCaster, memberCoCaster, matchData, castPreparation);
         
         let messageOrdre = await castChannel.send(`L'ordre des modes est le suivant :\n- ${emoteModeIndex[modes.mUn]} ${modeIndex[modes.mUn]}\n- ${emoteModeIndex[modes.mDeux]} ${modeIndex[modes.mDeux]}\n- ${emoteModeIndex[modes.mTrois]} ${modeIndex[modes.mTrois]}\n- ${emoteModeIndex[modes.mQuatre]} ${modeIndex[modes.mQuatre]}\n- ${emoteModeIndex[modes.mCinq]} ${modeIndex[modes.mCinq]}\n- ${emoteModeIndex[modes.mSix]} ${modeIndex[modes.mSix]}\n- ${emoteModeIndex[modes.mSept]} ${modeIndex[modes.mSept]}`)
-        
 
-        if (pinPickAndBan) {
-            const msg = await castChannel.send({ files: ['images/ps18_pick_ban.png'] });
+        if(kingFormatTeams.findIndex(v => v === teamRoles.team1.name) >= 0){
+            let team1Image = `images/stages/saison-5/${teamRoles.team1.name}.png`
+            let team2Image = `images/stages/saison-5/${teamRoles.team2.name}.png`
+
+            let msgMap = await castChannel.send({ files: [team1Image, team2Image] });
+
+            await msgMap.pin()
+        } else {
+            const msg = await castChannel.send({ files: ['images/s18_pick_ban_1.png'] });
             await msg.pin();
         }
 
         await messageOrdre.pin()
         await messageCreation.pin()
-
-        /*if(checkDivKing(castCategory.name)){
-            let team1Image = `images/stages/saison-4/${teamRoles.team1.name}.png`
-            let team2Image = `images/stages/saison-4/${teamRoles.team2.name}.png`
-
-            let msgMap = await castChannel.send({ files: [team1Image, team2Image] });
-
-            await msgMap.pin()
-        }*/
 
         let repEmbed = new EmbedBuilder()
             .setTitle("Salon de cast créé")
