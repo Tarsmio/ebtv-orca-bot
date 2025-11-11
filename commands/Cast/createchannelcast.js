@@ -213,7 +213,7 @@ Vous pouvez également déclarer votre line-up, qui pourrait être affichée pen
 
             await msgMap.pin()
         } else {
-            const msg = await castChannel.send({ files: ['images/s18_pick_ban_1.png'] });
+            const msg = await castChannel.send({ files: ['images/s18_pick_ban_2.png'] });
             await msg.pin();
         }
 
