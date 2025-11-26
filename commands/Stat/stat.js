@@ -18,11 +18,13 @@ const sheets = google.sheets({ version: "v4", auth });
 const ID_SPREAD = {
   s5: "1XvOUvv2CVSgSHercRIUsahlYNXTxeVdTHzb6bnTzKlM",
   s4: "1JcxiviVfcYPlIWBzVBOh3RAd0m0zgLcu0hV25KJMBYc",
+  s3: "16wY60gA588m_32jOpWjPBMTg5JVaa1YJcDd93HyEv1E",
 };
 
 const sFullName = {
   s5: `Saison 5 <:s5:${process.env.S5_EMOTE_ID}>`,
   s4: `Saison 4 <:s4:${process.env.S4_EMOTE_ID}>`,
+  s3: `Saison 3 <:s3:${process.env.S3_EMOTE_ID}>`,
 };
 
 async function getData(range, nameColIndex, name, saison) {
@@ -62,6 +64,13 @@ module.exports.execute = async (interaction) => {
 
   let subC = interaction.options.getSubcommand();
   let saison = interaction.options.getString("saison");
+
+  if (saison == "s3") {
+    return await interaction.editReply({
+      content: "Les stats de la Saison 3 arrive bientôt ...",
+      ephemeral: true,
+    });
+  }
 
   if (subC == "joueur") {
     //Joueur
@@ -285,6 +294,10 @@ module.exports.dataSlash = new SlashCommandBuilder()
               name: "Saison 4",
               value: "s4",
             },
+            {
+              name: "Saison 3",
+              value: "s3",
+            },
           ])
           .setRequired(true)
       )
@@ -308,6 +321,10 @@ module.exports.dataSlash = new SlashCommandBuilder()
             {
               name: "Saison 4",
               value: "s4",
+            },
+            {
+              name: "Saison 3",
+              value: "s3",
             },
           ])
           .setRequired(true)
