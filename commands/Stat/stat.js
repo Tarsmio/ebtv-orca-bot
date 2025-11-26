@@ -16,14 +16,14 @@ const sheets = google.sheets({ version: "v4", auth });
 //const SPREADSHEET_ID_S4 = '1JcxiviVfcYPlIWBzVBOh3RAd0m0zgLcu0hV25KJMBYc';
 
 const ID_SPREAD = {
-    s5: "1XvOUvv2CVSgSHercRIUsahlYNXTxeVdTHzb6bnTzKlM",
-    s4: "1JcxiviVfcYPlIWBzVBOh3RAd0m0zgLcu0hV25KJMBYc"
-}
+  s5: "1XvOUvv2CVSgSHercRIUsahlYNXTxeVdTHzb6bnTzKlM",
+  s4: "1JcxiviVfcYPlIWBzVBOh3RAd0m0zgLcu0hV25KJMBYc",
+};
 
 const sFullName = {
-    s5: "Saison 5",
-    s4: "Saison 4"
-}
+  s5: `Saison 5 <:s5:${process.env.S5_EMOTE_ID}>`,
+  s4: `Saison 4 <:s4:${process.env.S4_EMOTE_ID}>`,
+};
 
 async function getData(range, nameColIndex, name, saison) {
   const res = await sheets.spreadsheets.values.get({
@@ -61,7 +61,7 @@ module.exports.execute = async (interaction) => {
   await interaction.deferReply({ ephemeral: true });
 
   let subC = interaction.options.getSubcommand();
-  let saison = interaction.options.getString('saison')
+  let saison = interaction.options.getString("saison");
 
   if (subC == "joueur") {
     //Joueur
@@ -80,6 +80,7 @@ module.exports.execute = async (interaction) => {
 
     let embedJoueur = {
       title: `📊 Statistiques du joueur ${stats[2]}`,
+      description: sFullName[saison],
       color: 0x3c78d8,
       fields: [
         {
@@ -148,9 +149,6 @@ module.exports.execute = async (interaction) => {
           inline: true,
         },
       ],
-      footer: {
-        text: sFullName[saison],
-      },
     };
 
     return await interaction.editReply({
@@ -175,6 +173,7 @@ module.exports.execute = async (interaction) => {
 
     let embedEquipe = {
       title: `📊 Statistiques de l'équipe ${teamName}`,
+      description: sFullName[saison],
       color: 0xf1c232,
       fields: [
         {
@@ -238,9 +237,6 @@ module.exports.execute = async (interaction) => {
           inline: true,
         },
       ],
-      footer: {
-        text: sFullName[saison],
-      },
     };
 
     return await interaction.editReply({
