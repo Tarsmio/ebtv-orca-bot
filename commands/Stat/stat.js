@@ -65,12 +65,12 @@ module.exports.execute = async (interaction) => {
   let subC = interaction.options.getSubcommand();
   let saison = interaction.options.getString("saison");
 
-  if (saison == "s3") {
+  /*if (saison == "s3") {
     return await interaction.editReply({
       content: "Les stats de la Saison 3 arrive bientôt ...",
       ephemeral: true,
     });
-  }
+  }*/
 
   if (subC == "joueur") {
     //Joueur
