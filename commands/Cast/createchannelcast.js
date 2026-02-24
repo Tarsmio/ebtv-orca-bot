@@ -15,21 +15,7 @@ const { mapDB, caster } = require('../../db');
 const modeIndex = require('../../utils/modeIndex');
 const emoteModeIndex = require('../../utils/emoteModeIndex');
 
-const kingFormatTeams = [
-    "Amnesia",
-    "DEVIANT",
-    "ÉCLIPSE",
-    "Frans",
-    "GrisGris",
-    "Ink Souls Maria",
-    "Paris Saint-Glufus",
-    "Black wave",
-    "Hino",
-    "Hutora",
-    "Les Télétubbies",
-    "Pastabox",
-    "Witch Of The Night"
-]
+const kingFormatTeams = []
 
 module.exports.execute = async (interaction) => {
     try {
