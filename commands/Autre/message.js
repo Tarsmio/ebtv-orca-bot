@@ -16,7 +16,7 @@ async function sendMsgEmbed(channel, msg) {
     .setFooter({
       text: `ID : ${msg.id}`,
     })
-    .setTimestamp(new Date(msg.creation))
+    .setTimestamp(new Date(msg.creation));
 
   const deleteButton = new ButtonBuilder()
     .setCustomId(`g_message_del_${msg.id}`)
@@ -77,6 +77,15 @@ module.exports.execute = async (interaction) => {
     await interaction.deferReply();
     let titre = interaction.options.getString("titre");
     let contentMsg = interaction.options.getString("message");
+    let pageString = interaction.options.getString("page");
+
+    let pageToOpen;
+
+    if (!pageString) {
+      pageToOpen = "/";
+    } else {
+      pageToOpen = pageString;
+    }
 
     const url = `${process.env.FW_API}/message`;
     const config = {
@@ -87,6 +96,7 @@ module.exports.execute = async (interaction) => {
     const body = {
       title: titre,
       content: contentMsg,
+      open: pageToOpen,
     };
 
     let response;
@@ -103,15 +113,15 @@ module.exports.execute = async (interaction) => {
     let messageCreated = response.data.message;
 
     await sendMsgEmbed(channel, {
-        title: messageCreated.title,
-        content: messageCreated.content,
-        id: messageCreated._id,
-        creation: messageCreated.creation
-    })
+      title: messageCreated.title,
+      content: messageCreated.content,
+      id: messageCreated._id,
+      creation: messageCreated.creation,
+    });
 
     interaction.editReply({
-        content: "Info envoyé !"
-    })
+      content: "Info envoyé !",
+    });
   }
 };
 
@@ -186,5 +196,25 @@ module.exports.dataSlash = new SlashCommandBuilder()
           .setDescription("Le message a envoyé")
           .setMaxLength(500)
           .setRequired(true)
+      )
+      .addStringOption((opt) =>
+        opt
+          .setName("page")
+          .setDescription("La page que doit ouvrir la notif")
+          .setChoices([
+            {
+              name: "Planning",
+              value: "/planning",
+            },
+            {
+              name: "Maps",
+              value: "/maps",
+            },
+            {
+              name: "Groupes",
+              value: "/groups",
+            },
+          ])
+          .setRequired(false)
       )
   );
