@@ -60,7 +60,7 @@ module.exports.execute = async (interaction) => {
       });
     }
 
-    let messagesApp = response.data.messages;
+    let messagesApp = response.data;
 
     await channel.bulkDelete(50);
 
@@ -110,12 +110,12 @@ module.exports.execute = async (interaction) => {
       });
     }
 
-    let messageCreated = response.data.message;
+    let messageCreated = response.data;
 
     await sendMsgEmbed(channel, {
       title: messageCreated.title,
       content: messageCreated.content,
-      id: messageCreated._id,
+      id: messageCreated.id,
       creation: messageCreated.creation,
     });
 
