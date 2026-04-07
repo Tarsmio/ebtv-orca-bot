@@ -16,12 +16,14 @@ const sheets = google.sheets({ version: "v4", auth });
 //const SPREADSHEET_ID_S4 = '1JcxiviVfcYPlIWBzVBOh3RAd0m0zgLcu0hV25KJMBYc';
 
 const ID_SPREAD = {
+  s6: "1Wb_OSgL_jHDZDT4_0nF6sjTTR9PCyKN8wgcgdcJZRXQ",
   s5: "1XvOUvv2CVSgSHercRIUsahlYNXTxeVdTHzb6bnTzKlM",
   s4: "1JcxiviVfcYPlIWBzVBOh3RAd0m0zgLcu0hV25KJMBYc",
   s3: "16wY60gA588m_32jOpWjPBMTg5JVaa1YJcDd93HyEv1E",
 };
 
 const sFullName = {
+  s6: `Saison 6 <:s6:${process.env.S6_EMOTE_ID}>`,
   s5: `Saison 5 <:s5:${process.env.S5_EMOTE_ID}>`,
   s4: `Saison 4 <:s4:${process.env.S4_EMOTE_ID}>`,
   s3: `Saison 3 <:s3:${process.env.S3_EMOTE_ID}>`,
@@ -314,6 +316,10 @@ module.exports.dataSlash = new SlashCommandBuilder()
           .setName("saison")
           .setDescription("La saison correspondante")
           .addChoices([
+            {
+              name: "Saison 6",
+              value: "s6",
+            },
             {
               name: "Saison 5",
               value: "s5",
