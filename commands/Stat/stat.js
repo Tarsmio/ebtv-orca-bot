@@ -289,6 +289,10 @@ module.exports.dataSlash = new SlashCommandBuilder()
           .setDescription("La saison correspondante")
           .addChoices([
             {
+              name: "Saison 6",
+              value: "s6",
+            },
+            {
               name: "Saison 5",
               value: "s5",
             },
