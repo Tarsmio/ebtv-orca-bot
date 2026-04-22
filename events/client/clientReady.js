@@ -42,7 +42,7 @@ module.exports = async (client) => {
     }
 
     await deploySlashCommands(client)
-    await deployPrivateSlashCommands(client)
+    //await deployPrivateSlashCommands(client)
 
 
     console.log(`Ready! Logged in as ${client.user.tag}`);
