@@ -1,4 +1,7 @@
 require('dotenv').config();
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 10000;
 
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { loadCommands, loadEvents } = require('./utils/loaders');
@@ -17,3 +20,11 @@ loadCommands(client)
 loadEvents(client)
 
 client.login(process.env.DISCORD_TOKEN);
+
+app.get('/', (req, res) => {
+    res.send('Orca est en vie !');
+});
+  
+app.listen(port, () => {
+    console.log(`Serveur de monitoring lancé sur le port ${port}`);
+});
