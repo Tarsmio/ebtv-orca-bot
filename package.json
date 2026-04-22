@@ -14,6 +14,7 @@
     "discord.js": "^14.22.1",
     "dotenv": "^16.3.1",
     "ebtv_sp3": "file:",
+    "express": "^5.2.1",
     "googleapis": "^148.0.0",
     "mysql": "^2.18.1",
     "orca_ebtv": "file:"
